@@ -89,6 +89,10 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 	<link href='https://fonts.googleapis.com/css?family=Poiret+One|Open+Sans|Economica' rel='stylesheet' type='text/css'>
+	<link href="https://sugardaddydays.com/assets/css/magic.css" rel="stylesheet" />
+	<link href="https://sugardaddydays.com/dz/dropzone.min.css" rel="stylesheet" />
+	<link href='https://fonts.googleapis.com/css?family=Ubuntu Condensed' rel='stylesheet' type='text/css'>
+  <script src="https://sugardaddydays.com/assets/js/easing.js"></script>
 	<style>
 		html,body,div,span,p,table,td,tr,section,label,tbody, input,iframe, button,select, slide {
 			font-family:Economica!Important;
@@ -194,6 +198,13 @@
 				-webkit-filter:blur(+10);
 				padding:20px
 			 }
+
+.magictime {
+-webkit-animation-duration: 3s;
+-moz-animation-duration: 3s;
+-o-animation-duration: 3s;
+animation-duration: 3s;
+}			 
 			</style>
 			
 			<link href='https://fonts.googleapis.com/css?family=Ubuntu+Condensed' rel='stylesheet' type='text/css'>
@@ -537,8 +548,28 @@ animation-duration: 3s;
 			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
 		}	
 	}		
-	setCookie('curr_profile',member_id)		
-	var cp=member_id
+	if (getCookie('is_mobile') == '') document.getElementById('main_content').style.marginTop='100px'
+	var stop_it=false
+	var mid=''
+	var member_id=qs('member_id')
+	window.member_id=member_id
+	var p=[]
+	setTimeout('load_profile1('+member_id+')',1)
+	var profilesViewed=[]
+	var back=false
+	
+	function qs(name, url) {
+		if (!url) {
+		  url = window.location.href;
+		}
+		name = name.replace(/[\[\]]/g, "\\$&");
+		var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+			results = regex.exec(url);
+		if (!results) return null;
+		if (!results[2]) return '';
+		return decodeURIComponent(results[2].replace(/\+/g, " "));
+	}
+	var login,profile
 	function load_profile1(member_id){
 		if (p.indexOf(member_id)==-1) {
 			hot_list(member_id,'VIEWED_PROFILE')
@@ -546,17 +577,27 @@ animation-duration: 3s;
 			setCookie('curr_profile', member_id)
 			if ((p.indexOf(member_id)>0) && (back===true)) return false
 			var request = $.ajax({
-				url: 'https://sugardaddydays.com/inc/x_view_profile_pg.php?mid='+mid+'&member_id='+member_id, 
+				url: 'https://sugardaddydays.com/inc/x_view_profile.php?mid='+mid+'&member_id='+member_id, 
 				type: "GET",
 				dataType: "html",
 				cache: false,
 				success: function(msg) {
-					setCookie('curr_profile',member_id)		
-					cp=member_id				
-					document.getElementById('main_content').innerHTML=msg
-					if (p.indexOf(member_id)>0) return false
-						else p.push(member_id)
-					console.log(p)
+					msg=msg.split('|')
+					profile=msg[1]
+					login=msg[0]
+					chk_fav()
+					setTimeout(function() {
+						document.getElementById('main_content').innerHTML=msg
+						document.getElementById('main_content').className=''
+					} ,1000)
+					if (p.indexOf(member_id)>0) {
+						return false
+					} else {
+						p.push(member_id+'')
+						a['member_id']=member_id
+						a['login']=login.trim()
+					}
+					console.log(f)
 				}
 			})
 		}
@@ -566,50 +607,42 @@ animation-duration: 3s;
 	var last_viewed
 	var next_profile
 	var stop_go = true
-	var lat=getCookie('lat')
-	var lng=getCookie('lng')
-	var gen = getCookie('gender')
-	var cp=member_id
-	var age=getCookie('x-age')
-	var miles=getCookie('x-miles')
-	setCookie('curr_profile',member_id)		
-	var mid=window.localStorage.getItem('mid');
-
+	var f=[ ]
 	function next_profiles() {
 		back=false
 			if (!getCookie('gender')) setCookie('gender',getCookie('x-gender'))
-	//		console.log('https://sugardaddydays.com/inc/x_get_next.php?mid='+my_mid+'&lat='+lat+'&lng='+lng+'&last_viewed='+cp+'&gender='+gen+'&age='+age+'&miles='+miles)
+			var lat=getCookie('lat')
+			var lng=getCookie('lng')
+			console.log('https://sugardaddydays.com/inc/x_get_next.php?mid='+getCookie('mid')+'&lat='+lat+'&lng='+lng+'&last_viewed='+last_viewed+'&gender='+getCookie('gender')+'&age='+getCookie('x-age')+'&miles='+getCookie('x-miles') + '&last_viewed='+getCookie("curr_profile"))
 			var request = $.ajax({
-				url: 'https://sugardaddydays.com/inc/x_get_next.php?mid='+my_mid+'&lat='+lat+'&lng='+lng+'&last_viewed='+cp+'&gender='+gen+'&age='+age+'&miles='+miles, 
+				url: 'https://sugardaddydays.com/inc/x_get_next.php?mid='+getCookie('mid')+'&lat='+lat+'&lng='+lng+'&last_viewed='+last_viewed+'&gender='+getCookie('gender')+'&age='+getCookie('x-age')+'&miles='+getCookie('x-miles') + '&last_viewed='+getCookie("curr_profile"), 
 				type: "GET",
 				dataType: "html",
 				cache: false,
 				success: function(msg) {
+					var div=$('#main_content')
+					div.addClass('magictime rotateLeft');
 					member_id=msg
+					if (!member_id) prev_profiles()
+						else load_profile1(member_id)
 					setCookie('next_profile', msg)
-					load_profile1(member_id)
 				}
 			})
 	}	
 
+	var isFav,a=[ ]
 	function prev_profiles() {
+		stop_go=false
+		back=true
 		member_id=((p[p.length-2]))
 		console.log(member_id)
 		p.splice(p.indexOf(member_id),2)
 		console.log(p)
+		var div=$('#main_content')
+		div.addClass('magictime rotateRight');
 		if (!member_id) next_profiles()
 			else load_profile1(member_id)
-		if (profilesViewed.length>1) {
-			last_viewed=p[p.length-3]
-			next_profile=p[p.length-2]
-		} else {
-			last_viewed=p[p.length-1]
-		}
-		setCookie('last_viewed',last_viewed)
-		setCookie('next_profile',next_profile)
-		load_profile(true)
 	}	
-	
 
 	
 	function load_profile_swipe(){
@@ -1153,27 +1186,28 @@ function swp() {
 			}
 		}
 	}
-	  
 function detectswipe(el,func) {
+	
 	  swipe_det = new Object();
       swipe_det.sX = 0;
       swipe_det.sY = 0;
       swipe_det.eX = 0;
       swipe_det.eY = 0;
-      var min_x = 20;  //min x swipe for horizontal swipe
+      var min_x = 100;  //min x swipe for horizontal swipe
       var max_x = 40;  //max x difference for vertical swipe
-      var min_y = 40;  //min y swipe for vertical swipe
+      var min_y = 100;  //min y swipe for vertical swipe
       var max_y = 50;  //max y difference for horizontal swipe
       var direc = "";
       ele = document.getElementById(el);
 	  ele.addEventListener('touchstart',function(e){
-
+		xtt=e.type
 		var t = e.touches[0];
         swipe_det.sX = t.screenX; 
         swipe_det.sY = t.screenY;
       },false);
       ele.addEventListener('touchmove',function(e){
-        e.preventDefault();
+        xtt=e.type
+		e.preventDefault();
         var t = e.touches[0];
         swipe_det.eX = t.screenX; 
         swipe_det.eY = t.screenY;    
@@ -1199,15 +1233,23 @@ function detectswipe(el,func) {
     }
 
     function myfunction(el,d) {
-		  if (d=='l') setTimeout('prev_profiles()',1)
-		  if (d=='r') setTimeout('next_profiles()',1)
-		  if (d=='u') setTimeout('next_profiles()',1)
-		  if (d=='d') setTimeout('prev_profiles()',1)
+		if(xtt=='touchmove') {
+			rotate_me()
+		  if (d=='l') setTimeout('prev_profiles()',10)
+		  if (d=='r') setTimeout('next_profiles()',10)
+		  if (d=='u') setTimeout('next_profiles()',10)
+		  if (d=='d') setTimeout('prev_profiles()',10)
+		 } else {
+			return false
+		 }
     }
 
 	var files=0
 	var tMedium = !getCookie('mobile') ? ' EMAIL '  : ' MOBILE '
 	
+	function rotate_me() {
+		
+	}
 
 	function click_upload(xid) {		
 		$('#myDropZoneForm_' + xid).click()	
