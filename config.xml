@@ -15,6 +15,7 @@ A new experience from the pioneeers of sugar daddy dating - the first site based
 Gautam Sharma
 </author>
     <!-- Hiding status bar on ios, see http://stackoverflow.com/questions/20734117/how-to-remove-ios-status-bar-with-phonegap-build -->
+    <content src="index.html" />
 
     <!--
         If you do not want any permissions to be added to your app, add the
