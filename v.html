@@ -357,61 +357,35 @@ video {
                 <div class="row">
                     <div class="col s12 m12 l12">
 					
-		<div id="" class="www_box8" style="padding:20px;position:absolute;left:0;right:0;margin:auto!Important;top:80px;height:225px;margin:auto;z-index:9;max-width:320px">
-			<div style="font-size:24px;padding:5px;border-bottom:5px solid red" class="p1">MAKE A VIDEO CALL</div>
-			<table style="width:100%;margin-top:0px">
-				<tr style="display:none">
-					<td style="width:60px">
-						Name:
+		<div id="" class="" style="padding:20px;position:absolute;left:0;right:0;margin:auto!Important;top:50PX;height:225px;margin:auto;z-index:9;max-width:320px">
+			<div style="font-size:24px;padding:5px;border-bottom:0px solid red;text-align:left" class="p1">MAKE A VIDEO CALL</div>
+			<table style="width:320px;margin-left:-20px;margin-top:5px" class="www_box2">
+				<tr>
+					<td style="width:95px;padding:10px" title="Enter a login number or an email address of the person you wish to video chat with - and just press the button. Thats it. User offline? You also have the option of having us track down the user for you. Just choose 'yes' when asked." style="width:60px">
+
+						<label>Dial</label>
+						<span id="addressBook" style="font-size:18px;color:#000">
+						  <img src="https://werrx.com/images/sp13.png" style="width:30px">
+						</span>							
 					</td>
-					<td style="padding:5px;width:200px">
-						<span onclick="this.style.display='none';document.all.m4.style.display='block'" id="m3" style="color:orange">Click to Find User</span><span id="m4" style="display:none"><input type="text" id="patient_name" value="" placeholder="Find User by Name" style="width:170px"></span>
-					</td>
-					<td style="width:50px">
-						OR
-					</td>
-				</tr>
-				<tr style="display:none">
-					<td style="width:60px">
-						Invite
-					</td>
-					<td style="padding:5px;width:200px">
-						<span onclick="this.style.display='none';document.all.m2.style.display='block';document.all.or.style.display='none';document.all.invite_btn.style.display='block'" id="m1" style="color:orange">Invite User!</span></a><span id="m2" style="display:none"><input type="text" id="patient_invite" value="" placeholder="Invite by Mobile#" style="width:150px"></span>
-					</td>
-					<td style="width:50px">
-						<span><input type="button" style="width:35px;display:none" value="Go" onclick="invite_user()" id="invite_btn"></span><span id="or">OR</span>
-					</td>					
-				</tr>
-				<tr><td colspan=3><br></td></tr>
-				<tr style="margin-top:50px">
-				<td title="Enter a mobile number or an email address of the person you wish to video chat with - and just press the button. Thats it. User offline? You also have the option of having us track down the user for you. Just choose 'yes' when asked." style="width:60px">
-					Mobile:</td>
-					<td style="padding:5px;width:180px">
-						<input onkeyup="_getMobile()" type="text" id="patient_mobile" value=""  placeholder="Enter Mobile Number" style="width:170px" onblur="document.all.callVideo.src='images/i77.jpg'">
+					<td style="text-align:left;max-width:170px">
+						<input onkeyup="_getLogin()" type="text" id="patient_login" value=""  placeholder="Invite via Login or Email" style="padding:5px;width:150px;height:40px;border:1px solid skyblue;border-radius:4px;background:#fcfcfc" onblur="document.all.callVideo.src='https://sugardaddydays.com/assets/images/vcb.png'">
 						<div id="addressBookDropDown" style="display:none;color:#000!Important;background:#f0f0f0;font-size:20px;width:170px;margin-top:-5px;border-radius:0 0 4px 4px"></div>
 					</td>
 					<td>
-
-                            <span id="addressBook" style="font-size:18px;color:#000">
-                              <img src="https://werrx.com/images/sp13.png" style="width:25px">
-                            </span>
-                        </div>
-					</td>
-				</tr>
-				<tr>
-					<td colspan=3 style="text-align:center">
-						<img title="Click here to start a video call with anyone, just using their mobile number or email address" style="width:75px;margin-top:5px" id="callVideo" src="images/i77.jpg">
+						<img title="Click here to start a video call with anyone, just using their login name or email address" style="width:60px;margin:10px" id="callVideo" src="https://sugardaddydays.com/assets/images/vc.png">
 					</td>
 				</tr>
 			</table>
-				<table style="width:320px;margin-left:-20px;margin-top:50px" class="www_box2">
+			<div style="font-size:1.1em"><span><img style="width:40px" src="https://sugardaddydays.com/assets/images/grr.png"></span><span>SETTINGS</span></div>
+			<table style="width:320px;margin-left:-20px;margin-top:10px" class="www_box2">
 				<tr>
 					<td style="width:50px;padding:10px">
 							<label>Audio</label>
 					</td>
 					<td style="text-align:left;max-width:250px">
-						<select class="browser-default" id='audioSource' style="margin:5px;background:lavender;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
-							<option value="" disabled selected>Choose your option</option>
+						<select class="browser-default" id='audioSource' style="margin:5px;background:lavenderblush;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
+							<option value="" disabled selected>Default Mic</option>
 						</select>
 				
 					</td>
@@ -423,21 +397,59 @@ video {
 					</td>
 					<td>
 						<select class="browser-default" id='videoSource' style="margin:5px;background:lavender;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
-							<option value="" disabled selected>Choose your option</option>
+							<option value="" disabled selected>Default Camera</option>
 						</select>													
 					</td>
 				</tr>
+				<tr>
+					<td style="width:50px;padding:10px">
+						<label>Resolution</label>
+					</td>
+					<td style="text-align:left;max-width:250px">
+						<select class="browser-default" id='audioSource' style="margin:5px;background:lightblue;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
+							<option value="" selected>HD</option>
+							<option value="" disabled>4K</option>
+							<option value="" disabled>SD</option>
+							<option value="" disabled>VGA</option>
+							<option value="" disabled>QVGA</option>
+						</select>
+				
+					</td>
+					
+				</tr>
+				<tr>
+					<td style="width:50px;padding:10px">
+							<label>Bandwidth</label>
+					</td>
+					<td style="text-align:left;max-width:250px">
+						<select class="browser-default" id='audioSource' style="margin:5px;background:gold;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
+							<option value="" selected>1200 KBps</option>
+							<option value="" disabled>800 KBps</option>
+							<option value="" disabled>300 KBps</option>
+							<option value="" disabled>100 KBps</option>
+						</select>
+				
+					</td>
+					
+				</tr>
+				<tr>
+					<td style="width:50px;padding:10px">
+						<label>Source</label>
+					</td>
+					<td style="text-align:left;max-width:250px">
+						<SPAN><a href="#"><image src="https://sugardaddydays.com/assets/images/t1a.png" id="mm" style="width:45px" data-toggle="modal" data-target="#modalRemote"></a><BR>REMOTE</SPAN><SPAN style="position:absolute;margin-left:25px;margin-top:-28px;text-align:center"><a href="#"><image src="https://sugardaddydays.com/assets/images/t1b.png" id="mr" style="width:25px" data-toggle="modal" data-target="#modalMini"></a><br>LOCAL</SPAN>
+					</td>
+				</tr>
 			</table>
-			<table style="width:350px;margin-left:-20px;margin-top:50px">
-				<tr><td><div id="pp" style="width:100%"></div></td></tr><tr><td>
-			<a href="#"><image src="images/bt1.png" id="mm" style="width:55px" data-toggle="modal" data-target="#modalRemote"></a> Click to view Remote Stream<br>
-			<a href="#"><image src="images/bt1.png" id="mr" style="width:55px" data-toggle="modal" data-target="#modalMini"></a> Click to view Local stream
-			<a href="#"><image src="images/tele_med.png"style="width:55px;display:none" data-toggle="modal" data-target="#modalAR" id="tm"></a>
-			<a href="#"><image src="images/tele_med.png"style="width:55px;display:none" data-toggle="modal" data-target="#modalAlert" id="am"></a>
-			<input id="hangup" class="btn btn-danger" type="button" disabled="true" value="Hangup" style="display:none"/>
+			<div style="font-size:16px;width:800px" id="status"></div>
+			<table style="width:350px;margin-left:-20px;margin-top:10px">
+			<tr><td>
+				<a href="#"><image src="images/tele_med.png"style="width:55px;display:none" data-toggle="modal" data-target="#modalAR" id="tm"></a>
+				<a href="#"><image src="images/tele_med.png"style="width:55px;display:none" data-toggle="modal" data-target="#modalAlert" id="am"></a>
+				<input id="hangup" class="btn btn-danger" type="button" disabled="true" value="Hangup" style="display:none"/>
 			</td></tr>
 		</table>
-	<div style="font-size:16px;width:800px" id="status"></div>
+		
 	</div></div> 
 
                 
@@ -641,36 +653,100 @@ video {
 	<!-- External JavaScripts
 	============================================= -->
 	<script type="text/javascript" src="js/jquery.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="js/plugins.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/plugins.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
 
         <script>
             'use strict';
+
+	var wl = window.location.href;
+	var mob = (window.location.href.indexOf('file://')>=0);
+
+	function setCookie(cname,cvalue)	{
+		if (mob===true) {
+			window.localStorage.setItem(cname, cvalue);
+		} else {
+			var d = new Date(); 
+			d.setTime(d.getTime()+(1*24*60*60*1000)); 
+			var expires = "expires="+d.toGMTString(); 
+			document.cookie = cname + "=" + cvalue + "; " + expires; 
+		}
+	} 
+
+	function getCookie(cname)	{ 
+		if (mob===true) {
+			var cvalue = window.localStorage.getItem(cname);
+			return cvalue
+		} else {
+			var name = cname + "="; 
+			var ca = document.cookie.split(';'); 
+			for(var i=0; i<ca.length; i++) { 
+			  var c = ca[i].trim(); 
+			  if (c.indexOf(name)==0) return c.substring(name.length,c.length); 
+			} 
+			return ""; 
+		}
+	} 
+
+	function delCookie(cname) {
+		if (mob===true) {
+			window.localStorage.removeItem(cname);
+		} else {
+			var d = new Date();
+			d.setTime(d.getTime());
+			var expires = "expires="+d.toGMTString();
+			document.cookie = cname + "=" + "" + "; " + expires;
+		}
+	}
+	
+
             var session = null,
                 webRTCClient = null,
                 connectedUsersList = [],
-        //Accept-Refuse
+				//Accept-Refuse
                 incomingCallId = 0;
 			var num
-
+			var mid
+			var login
 			var to = qs('to')
-			if (!to) to = $('#patient_mobile').val()
+			if (!to) to = $('#patient_login').val()
+			login = qs('login')
 			
-			var from = qs('mobile')
-			if (from == '') from = getCookie('mobile')
-				else from = qs('mobile')
+			if (login == '') login = getCookie('login')
+				else login = qs('login')
+			
+			if (!login) {
+				jmsg('Login is required to continue. Please login first')
+				exit
+			}
+			if (getCookie('mid') !='') {
+				mid=getCookie('mid')
 
-			setCookie('mobile', from)
-			if (qs('to') && from) {
-				document.getElementById('patient_mobile').value=qs('to')
+			} else {
+				var request = $.ajax({
+					url: 'https://sugardaddydays.com/inc/x_get_user_info.php?'+login,
+					type: "GET",
+					dataType: "html",
+					cache: false,
+					success: function(msg) {
+						mid=JSON.parse(msg).id
+					}
+				})
+			}
+
+			setCookie('login', login)
+			if (qs('to') && login) {
+				document.getElementById('patient_login').value=qs('to')
 			//	$('#callVideo').click()
 			}
 			var cssText
-//SELECT_MEDIA
+			//SELECT_MEDIA
             // camera select
             var audioSelect = document.querySelector("select#audioSource"),
             videoSelect = document.querySelector("select#videoSource");
-            function selectMediaChange(){
+            
+			function selectMediaChange(){
                 console.log('selectMediaChange');
                 webRTCClient.setAudioSourceId(audioSelect.value);
                 //Storing audioSourceId in localStorage
@@ -679,9 +755,11 @@ video {
                 //Storing videoSourceId in localStorage
                 localStorage.setItem("videoSourceId_" + apiRTC.session.apiCCId, videoSelect.value);
             }
-            audioSelect.onchange = selectMediaChange;
+            
+			audioSelect.onchange = selectMediaChange;
             videoSelect.onchange = selectMediaChange;
-            function gotSources(sourceInfos) {
+            
+			function gotSources(sourceInfos) {
                 console.log('gotSources');
                 var audioDeviceFound = false,
                     videoDeviceFound = false,
@@ -777,7 +855,7 @@ video {
 			}
 			function invite_user() {
 				$('#status').hide()
-				var strINV=document.getElementById('patient_mobile').value
+				var strINV=document.getElementById('patient_login').value
 				strINV = strINV.replace(/\(/g, '');
 				str = str.replace(/\)/g, '');
 				str = str.replace(/-/g, '');
@@ -809,12 +887,12 @@ video {
 					}
 				}
 				setCookie('invited_user',strINV10)
-				document.getElementById('patient_mobile').value=strINV10
-				to=document.getElementById('patient_mobile').value
+				document.getElementById('patient_login').value=strINV10
+				to=document.getElementById('patient_login').value
 				hide_invite()
 				$('#modalInvite').modal('show');
 				
-				//sms(strINV,getCookie('mobile'),'https://werrx.com/rtcB.php?mobile=' + strINV10)
+				//sms(strINV,getCookie('login'),'https://werrx.com/rtcB.php?login=' + strINV10)
 			}
 			var sendSMSMsg
 			var sendVoice
@@ -841,23 +919,23 @@ video {
 				if  (sendSMSMsg===true) 
 					var smsMessage = $('#txtSMS').text()
 				else 
-					var smsMessage = 'https://werrx.com/rtcB.php?mobile=' + getCookie('invited_user')
+					var smsMessage = 'https://werrx.com/rtcB.php?login=' + getCookie('invited_user')
 				
-				sms('1'+getCookie('invited_user'),getCookie('mobile'),smsMessage)
+				sms('1'+getCookie('invited_user'),getCookie('login'),smsMessage)
 				
 				if  (sendVoiceMsg===true) 
 					var voiceMessage = $('#txtVoice').text()
 				else 
 					var voiceMessage = 'Hello, this a courtesy call to inform you that you have received a request to join a video call. In order to join please click the link sent to you via text message to your phone'
 				if (sendVoice===true) {
-					voice('1'+getCookie('invited_user'), getCookie('mobile'), voiceMessage)
+					voice('1'+getCookie('invited_user'), getCookie('login'), voiceMessage)
 				}
 				if  (sendEmailMsg===true) 
 					var emailMessage = $('#txtEmail').text()
 				else 
-					var emailMessage = "Hello, this a courtesy call to inform you that you have received a request to join a video call from "+getCookie('mobile')+". In order to join please click the link below \r\n\r\n" + "https://werrx.com/rtcB.php?mobile=" + getCookie('invited_user')
+					var emailMessage = "Hello, this a courtesy call to inform you that you have received a request to join a video call from "+getCookie('login')+". In order to join please click the link below \r\n\r\n" + "https://werrx.com/rtcB.php?login=" + getCookie('invited_user')
 				if (sendEmail===true) {
-					email($('#user_email').val(), getCookie('mobile'), emailMessage)
+					email($('#user_email').val(), getCookie('login'), emailMessage)
 				}
 				$('#modalInvite').modal('hide');
 				setTimeout('show_next()',1000)
@@ -870,7 +948,7 @@ video {
 			}
 			
             function selectPhonebookItem(idItem) {
-                $("#patient_mobile").val(idItem);
+                $("#patient_login").val(idItem);
                 $("#addressBookDropDown").toggle();
             }
 			var mediaElt = null, divElement = null;
@@ -970,14 +1048,23 @@ video {
             }
 
             function incomingCallHandler(e) {
-                $("#tm").click()
-				$("#hangup").attr("disabled", false).val("Hangup");
-                $("#accept").attr("disabled", false).val("Accept");
-                $("#refuse").attr("disabled", false).val("Refuse");
-                addHangupButton(e.detail.callId);
-        //Accept-Refuse
-                incomingCallId = e.detail.callId;
-            }
+				var request = $.ajax({
+					url: 'https://sugardaddydays.com/inc/x_get_user_info.php?'+e.detail.callerId,
+					type: "GET",
+					dataType: "html",
+					cache: false,
+					success: function(msg) {
+						//Accept-Refuse
+						$("#tm").click()
+						$("#hangup").attr("disabled", false).val("Hangup");
+						$("#accept").attr("disabled", false).val("Accept");
+						$("#refuse").attr("disabled", false).val("Refuse");
+						addHangupButton(msg);
+						incomingCallId = msg;
+					}
+				})
+
+			}
 
             function userMediaSuccessHandler(e) {
                 console.log("userMediaSuccessHandler e.detail.callId :" + e.detail.callId);
@@ -1012,8 +1099,11 @@ video {
             
 				$('#mm').click()
 			}
+			var tu=0
+			var ul=[ ]
 			var connected_x=false
             function updateAddressBook() {
+				ul=[ ]
                 console.log("updateAddressBook");
                 var length = connectedUsersList.length,
                     i = 0;
@@ -1034,14 +1124,28 @@ video {
 					}
                     //Checking if connectedUser is not current user befire adding in addressBook list
                     if (connectedUsersList[i].userId !== apiRTC.session.apiCCId) {
-                        if(connectedUsersList[i].group !== undefined) {
-                            $("#addressBookDropDown").append('<a href="#" onclick="selectPhonebookItem(' + connectedUsersList[i].userId + ')"><div class="www_box2" style="border-radius:0!Important;color:#000!Important;width:100%;padding-left:10px;height:35px"><span style="color:#000">' + connectedUsersList[i].userId + ' - ' + connectedUsersList[i].group + '</span></div></a>');
-                        } else {
-                            $("#addressBookDropDown").append('<a href="#" onclick="selectPhonebookItem(' + connectedUsersList[i].userId + ')"><div class="www_box2" style="border-radius:0!Important;color:#000!Important;width:100%;padding-left:10px;height:35px"><span style="color:#000">' + connectedUsersList[i].userId + '</span></div></a>');
-                        }
-                    }
-                }
-            }
+							ul.push(connectedUsersList[i].userId)
+					   }
+					   tu=i
+					}
+						for (var a=0;a<=tu;a++) {
+							var request = $.ajax({
+								url: 'https://sugardaddydays.com/inc/x_get_user_info.php?'+connectedUsersList[a].userId,
+								type: "GET",
+								dataType: "html",
+								cache: false,
+								success: function(msg) {
+								
+									var x1=JSON.parse(msg)
+									var user_login = x1.login
+									$("#aa"+a).text(x1.login);
+									console.log(x1.login)
+	//									$("#addressBookDropDown").append('<a href="#" onclick="selectPhonebookItem(' + ul[a] + ')"><div class="www_box2" style="border-radius:0!Important;color:#000!Important;width:100%;padding-left:10px;height:35px"><span style="color:#000" id="aa'+a+'">'+x1.login.toUpperCase()+'</span></div></a>');
+											$("#addressBookDropDown").append('<div>'+x1.login+'</div>');
+								}
+							})		
+						}
+				}
 
             function connectedUsersListUpdateHandler(e) {
                 console.log("connectedUsersListUpdateHandler, e.detail.group :" + e.detail.group);
@@ -1061,7 +1165,7 @@ video {
 
             //sessionReadyHandler : apiRTC is now connected
             function sessionReadyHandler(e) {
-
+				
                 console.log('sessionReadyHandler :' + apiRTC.session.apiCCId);
 
 //                $("#call").attr("disabled", false).val("Call");   //Modification of Call button when phone is registered on Apizee
@@ -1071,7 +1175,7 @@ video {
                 apiRTC.addEventListener("userMediaError", userMediaErrorHandler);
                 apiRTC.addEventListener("hangup", hangupHandler);
                 apiRTC.addEventListener("remoteStreamAdded", remoteStreamAddedHandler);
-
+				setTimeout("w2()",1000)
             //connectedUsersList
                 apiRTC.addEventListener("connectedUsersListUpdate", connectedUsersListUpdateHandler);
             //connectedUsersList
@@ -1096,18 +1200,11 @@ video {
 			$("#callVideo").click(function () {
 				//$("#hangup").attr("disabled", false).val("Hangup");
 			var to = ''
-			if (!to) to = $('#patient_mobile').val()
+			if (!to) to = $('#patient_login').val()
 					if (to) {
-					alert(to)
-						var callId = webRTCClient.call(to);
-						console.log("callId on call =" + callId);
-						if (callId != null) {
-							addHangupButton(callId);
-						} else {
-							jmsg($('#status').text().split(':')[0],'err')
-						}
+						make_call_to_mid(to)
 					} else {
-						jmsg('Must enter a mobile number','err')
+						jmsg('Must enter a login number','err')
 						return false
 					}
                 });
@@ -1139,20 +1236,20 @@ video {
                     removeHangupButton(incomingCallId);
                 });
             }
-
             $("#addressBook").on('click', function() {
                 $("#addressBookDropDown").toggle();
             });
-			var mobile=qs('mobile')
-			if (!mobile) mobile=getCookie('mobile')
             //apiRTC initialization
             apiRTC.init({
                 apiKey : "sddays",
-                apiCCId : mobile,
+                apiCCId : mid,
                 onReady : sessionReadyHandler
             });
 	function hangup_now() {
 		webRTCClient.hangUp();
+	}
+	function w2() {
+		$('#status').html('<div style="font-size:21px;color:#000">Registration Successfull.<br>Other users can reach you by calling <b>\''+login+'\'</b></div>')
 	}
 	
 	function startView() {
@@ -1162,115 +1259,37 @@ video {
 	function startCam() {
 		$('#callVideo').click()	
 	}
+
+	function make_call_to_mid(ulogin) {
+		console.log('https://sugardaddydays.com/inc/x_get_user_info.php?'+ulogin)
+		var request = $.ajax({
+			url: 'https://sugardaddydays.com/inc/x_get_user_info.php?'+ulogin,
+			type: "GET",
+			dataType: "html",
+			cache: false,
+			success: function(msg) {
+				console.log(msg)
+				var x1=JSON.parse(msg)
+				var callId = webRTCClient.call(x1.id);
+				console.log("callId on call =" + callId);
+				if (callId != null) {
+					addHangupButton(callId);
+				} else {
+					jmsg($('#status').text().split(':')[0],'err')
+				}
+			}
+		})		
+	}
+	
 	
 	var wl = window.location.href;
 	var mob = (window.location.href.indexOf('file://')>=0);			
 	var my_mid=getCookie('mid');
 	var stop_it=false
 	var mid=''
-	var member_id=qs('member_id')
 	var p=[]
 	var profilesViewed=[]
 	var back=false
-	
-		function upload_photos() {
-			if(!getCookie('mid')) location.href='index.html?force=login'
-				else location.href='upload_photos.html?member_id='+getCookie('mid')
-		}
-		
-		function view_profile() {
-			if(!getCookie('mid')) location.href='index.html?force=login'
-				else location.href='view_profile.html?member_id='+getCookie('mid')
-		}
-		
-		function qs(name, url) {
-			if (!url) {
-			  url = window.location.href;
-			}
-			name = name.replace(/[\[\]]/g, "\\$&");
-			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-				results = regex.exec(url);
-			if (!results) return null;
-			if (!results[2]) return '';
-			return decodeURIComponent(results[2].replace(/\+/g, " "));
-		}
-
-	var wl = window.location.href;
-	var mob = (window.location.href.indexOf('file://')>=0);
-
-	function setCookie(cname,cvalue)	{
-		if (window.location.href.indexOf('file://')>=0) {
-			window.localStorage.setItem(cname, cvalue);
-		} else {
-			var d = new Date(); 
-			d.setTime(d.getTime()+(1*24*60*60*1000)); 
-			var expires = "expires="+d.toGMTString(); 
-			document.cookie = cname + "=" + cvalue + "; " + expires; 
-		}
-	} 
-
-	function getCookie(cname)	{ 
-		if (window.location.href.indexOf('file://')>=0) {
-			var cvalue = window.localStorage.getItem(cname);
-			return cvalue
-		} else {
-			var name = cname + "="; 
-			var ca = document.cookie.split(';'); 
-			for(var i=0; i<ca.length; i++) { 
-			  var c = ca[i].trim(); 
-			  if (c.indexOf(name)==0) return c.substring(name.length,c.length); 
-			} 
-			return ""; 
-		}
-	} 
-
-	function delCookie(cname) {
-		if (mob===true) {
-			window.localStorage.removeItem(cname);
-		} else {
-			var d = new Date();
-			d.setTime(d.getTime());
-			var expires = "expires="+d.toGMTString();
-			document.cookie = cname + "=" + "" + "; " + expires;
-		}
-	}
-	
-	function clear_all() {
-		if (mob===true) {
-			 window.localStorage.clear();
-		} else {
-			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-		}	
-	}		
-	setCookie('curr_profile',member_id)		
-	var cp=member_id
-	function load_profile1(member_id){
-		if (p.indexOf(member_id)==-1) {
-			hot_list(member_id,'VIEWED_PROFILE')
-			if (getCookie('curr_profile')) setCookie('prev_profile',getCookie('curr_profile'))
-			setCookie('curr_profile', member_id)
-			if ((p.indexOf(member_id)>0) && (back===true)) return false
-			var request = $.ajax({
-				url: 'https://sugardaddydays.com/inc/x_view_profile_pg.php?mid='+mid+'&member_id='+member_id, 
-				type: "GET",
-				dataType: "html",
-				cache: false,
-				success: function(msg) {
-					setCookie('curr_profile',member_id)		
-					cp=member_id				
-					document.getElementById('main_content').innerHTML=msg
-					if (p.indexOf(member_id)>0) return false
-						else p.push(member_id)
-					console.log(p)
-				}
-			})
-		}
-	}
-
-		
-</script>
-	<script type="text/javascript" src="js/functions.js"></script>
-<script>
 	var fn=['Active Ingredient','Brand Name','Generic Name','Substance Name','Diagnosis','Symptoms']
 	var tn=['active','brand','generic','substance','diagnosis','symptoms']
 	var bx=['www_box2','www_box5','www_box6','www_box7','www_box8','www_box9']
@@ -1339,47 +1358,15 @@ video {
 		clearTimeout(t1)
 		t1=setTimeout('getName()', 1000)
 	}
-	function getName() {
-		var nid='patient_name'
-		var g;
-		var ntr='';
-		var str='';
-		if (document.getElementById(nid).value.length<3) return false
-		str+='<table style="width:100%;padding:10px">'
-		console.log('x_ac_names.php?q='+document.getElementById(nid).value)
-		$.ajax({
-			url:'x_ac_names.php?q='+document.getElementById(nid).value,
-			success: function(msg){
-				var data=JSON.parse(msg.trim())
-				console.log(data)
-				for (g=0;g<data.length;g++) {
-					ntr = data[g].label.split('|')
-					var valx=data[g].value
-					var pn = ntr[0]
-					var pm = ntr[1]
-					var pe = ntr[2]
-					var pp=document.getElementById('pp')
-					pp.style.display='block'
-					var px=document.createElement('div')
-					px.id='rolodex'
-					px.innerHTML = '<br><table class="hf www_box2" style="width:100%;padding:5px;font-size:20px;border-bottom:1px solid silver;margin-top:0px"><tr><td style="padding:5px"><b>' + pn + '</b><br>'+pm+'</td><td style="text-align:right;width:25%"><img src="images/tele_med.png" onclick="selectNG('+valx+','+g+')">' + '</td></tr></table>'
-					pp.appendChild(px)
-					pp.style.marginTop='-30px'
-					pp.style.marginBottom='20px'
-					cP.push(valx + '|' + pn + '|' + pm + '|' + pe)
-				}
-			}
-		})
-	}
 
 	var t2
-	function _getMobile() {
+	function _getLogin() {
 		clearTimeout(t2)
-		t2=setTimeout('getMobile()', 1000)
+		t2=setTimeout('getLogin()', 1000)
 	}
 	
-	function getMobile() {
-		var nid='patient_mobile'
+	function getLogin() {
+		var nid='patient_login'
 		var g;
 		var ntr='';
 		var str='';
@@ -1387,7 +1374,7 @@ video {
 		str+='<table style="width:100%;padding:10px">'
 		console.log('x_ac_names.php?q='+document.getElementById(nid).value)
 		$.ajax({
-			url:'x_ac_names.php?q='+document.getElementById(nid).value+'&type=mobile',
+			url:'x_ac_names.php?q='+document.getElementById(nid).value+'&type=login',
 			success: function(msg){
 				var data=JSON.parse(msg.trim())
 				console.log(data)
@@ -1415,7 +1402,7 @@ video {
 		setCookie('currPatient',cP[ix])
 		var nms=cP[ix].split('|')
 		var pn=$('#patient_name').val()
-		var pm=$('#patient_mobile').val()
+		var pm=$('#patient_login').val()
 		var pe=$('#patient_email').val()
 		var url = 'x_create_patient.php?name=' + pn + '&mobile=' + pm + '&email=' +  pe
 		console.log(url)
@@ -1434,7 +1421,7 @@ video {
 		setCookie('currPatient',cP[ix])
 		var nms=cP[ix].split('|')
 		$('#patient_name').val(nms[1])
-		$('#patient_mobile').val(nms[2])
+		$('#patient_login').val(nms[2])
 		$('#patient_email').val(nms[3])
 		$('#pp').hide()
 		$('#callVideo').click()
@@ -1515,47 +1502,6 @@ video {
 			}
 		})
 	}	
-
-	var wl = window.location.href;
-	var mob = (window.location.href.indexOf('file://')>=0);
-
-	function setCookie(cname,cvalue)	{
-		if (mob===true) {
-			window.localStorage.setItem(cname, cvalue);
-		} else {
-			var d = new Date(); 
-			d.setTime(d.getTime()+(1*24*60*60*1000)); 
-			var expires = "expires="+d.toGMTString(); 
-			document.cookie = cname + "=" + cvalue + "; " + expires; 
-		}
-	} 
-
-	function getCookie(cname)	{ 
-		if (mob===true) {
-			var cvalue = window.localStorage.getItem(cname);
-			return cvalue
-		} else {
-			var name = cname + "="; 
-			var ca = document.cookie.split(';'); 
-			for(var i=0; i<ca.length; i++) { 
-			  var c = ca[i].trim(); 
-			  if (c.indexOf(name)==0) return c.substring(name.length,c.length); 
-			} 
-			return ""; 
-		}
-	} 
-
-	function delCookie(cname) {
-		if (mob===true) {
-			window.localStorage.removeItem(cname);
-		} else {
-			var d = new Date();
-			d.setTime(d.getTime());
-			var expires = "expires="+d.toGMTString();
-			document.cookie = cname + "=" + "" + "; " + expires;
-		}
-	}
-	
 	function clear_all() {
 		if (mob===true) {
 			 window.localStorage.clear();
@@ -1607,6 +1553,20 @@ video {
  function fixHT() {
 	document.getElementById('wrapper').style.height=window_height()+'px'
  }
+ 
+ 		function qs(name, url) {
+			if (!url) {
+			  url = window.location.href;
+			}
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		}
+
+
 </script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
