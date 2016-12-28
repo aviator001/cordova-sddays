@@ -701,6 +701,19 @@ video {
 	}
 	
 
+ 		function qs(name, url) {
+			if (!url) {
+			  url = window.location.href;
+			}
+			name = name.replace(/[\[\]]/g, "\\$&");
+			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, " "));
+		} 
+
+
             var session = null,
                 webRTCClient = null,
                 connectedUsersList = [],
@@ -712,17 +725,15 @@ video {
 			var to = qs('to')
 			if (!to) to = $('#patient_login').val()
 			login = qs('login')
-			
 			if (login == '') login = getCookie('login')
 				else login = qs('login')
 			
 			if (!login) {
 				jmsg('Login is required to continue. Please login first')
-				exit
+				
 			}
 			if (getCookie('mid') !='') {
 				mid=getCookie('mid')
-
 			} else {
 				var request = $.ajax({
 					url: 'https://sugardaddydays.com/inc/x_get_user_info.php?'+login,
@@ -1049,7 +1060,7 @@ video {
 
             function incomingCallHandler(e) {
 				var request = $.ajax({
-					url: 'https://sugardaddydays.com/inc/x_get_user_info.php?'+e.detail.callerId,
+					url: 'https://sugardaddydays.com/inc/x_get_user_info.php?'+e.detail.callId,
 					type: "GET",
 					dataType: "html",
 					cache: false,
@@ -1205,7 +1216,7 @@ video {
 						make_call_to_mid(to)
 					} else {
 						jmsg('Must enter a login number','err')
-						return false
+						
 					}
                 });
 
@@ -1554,19 +1565,6 @@ video {
 	document.getElementById('wrapper').style.height=window_height()+'px' 
  }
  
- 		function qs(name, url) {
-			if (!url) {
-			  url = window.location.href;
-			}
-			name = name.replace(/[\[\]]/g, "\\$&");
-			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-				results = regex.exec(url);
-			if (!results) return null;
-			if (!results[2]) return '';
-			return decodeURIComponent(results[2].replace(/\+/g, " "));
-		} 
-
-
 </script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
