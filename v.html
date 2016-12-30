@@ -685,6 +685,22 @@ video {
             permissions.hasPermission(permissions.CAMERA, checkVideoPermissionCallback, null);
             permissions.hasPermission(permissions.RECORD_AUDIO, checkAudioPermissionCallback, null);
 
+        }
+
+		//	if (!login) login=getCookie('login')
+			if (login) {
+				login=encode(login)
+				//apiRTC initialization
+				apiRTC.init({
+					apiKey : "werrx",
+					apiCCId : login,
+					onReady : sessionReadyHandler
+				});
+			} else {
+				alert('Must Login')
+			}
+		}
+
             function checkVideoPermissionCallback(status) {
                 if(!status.hasPermission) {
                     var errorCallback = function() {
@@ -715,28 +731,15 @@ video {
                             },
                             errorCallback);
                 }
-            }
-        }
-
-		//	if (!login) login=getCookie('login')
-			if (login) {
-				login=encode(login)
-				//apiRTC initialization
-				apiRTC.init({
-					apiKey : "werrx",
-					apiCCId : login,
-					onReady : sessionReadyHandler
-				});
-			} else {
-				alert('Must Login')
-			}
-		}
+            }		
     var app = document.URL.indexOf( 'https://' ) === -1;
     if ( app ) {
         document.addEventListener("deviceready", onDeviceReady, false);
     } else {
         onDeviceReady();
-    }			
+    }
+	if (document.URL.indexOf( 'file:///G:' ) > -1) onDeviceReady();
+	
 	var wl = window.location.href;
 	var mob = (window.location.href.indexOf('file://')>=0);
 
