@@ -1,17 +1,302 @@
+
 <!DOCTYPE html>
-<html>
+<html dir="ltr" lang="en-US">
 <head>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<meta name="author" content="SemiColonWeb" />
+   <meta charset="utf-8">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+	<!-- Stylesheets
+	============================================= -->
+	<link href="https://fonts.googleapis.com/css?family=Economica|Poiret+One" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
+	<link rel="stylesheet" href="css/animate.css" type="text/css" />
+	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+	<link rel="stylesheet" href="css/stream.css" type="text/css" />
+	<link rel="stylesheet" href="jquery/jquery-ui.theme.css" type="text/css" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link href="https://fonts.googleapis.com/css?family=Bubbler+One|Just+Another+Hand|Open+Sans+Condensed:300|Poiret+One|Wire+One" rel="stylesheet"/>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
 
     <style>
+		
         .remote video {
             width: 100% !important;
         }
+       body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+			font-family: Open Sans Condensed;
+			font-size:18px
+        }
+        .btn-open {
+            height: auto;
+            line-height: inherit;
+            padding: 15px 25px;
+        }
+        main {
+            flex: 1 0 auto;
+        }
+        .container.master { padding: 50px; }
+        .fa {
+            display: inline-block !important;
+        }
+        footer {  margin-top: 0 !important; }
+        #remote {
+            position: relative !important;
+            margin: 25px 0;
+        }
+        #command form input[type="texte"] {
+            display: block;
+            border: 2px solid rgb(74, 74, 74);
+            padding: 3px 20px;
+            margin-bottom: 10px;
+            border-radius: 6px;
+
+        }
+        .container.formu #hangup,
+        .container.formu #accept,
+        .container.formu #refuse,
+        .container.formu #call {
+            background: transparent;
+            border: none;
+        }
+        #addressBookDropDown {
+            position: absolute;
+            background: #e6e6e6;
+            padding: 5px 0;
+            margin-top: 5px;
+            border-radius: 5px;
+            z-index: 100;
+        }
+        #addressBookDropDown li {
+            color: #4a4a4a;
+            padding: 2px 15px;
+        }
+        #addressBookDropDown li a {
+            color: lavenderblush;
+        }
+        #addressBookDropDown li:hover {
+            background: #d6d6d6;
+        }
+
+  container {
+	  width:100%!Important;
+  }	
+  #status {
+	  font-size:16px!Important
+  }
+video {
+ height: 100%;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: cover;  /* no letterboxing */
+  transition: opacity 1s;
+  -moz-transform: scale(-1, 1);
+  -ms-transform: scale(-1, 1);
+  -o-transform: scale(-1, 1);
+  -webkit-transform: scale(-1, 1);
+  transform: scale(-1, 1);
+  width: 100%;
+}
+  .txtMsg {
+		width:260px;
+		height:80px;
+		border:1px solid skyblue;
+		border-radius:4px;
+		display:none;
+		margin-bottom:10px;
+		margin-top:5px;
+  }
+.p1 {
+	  font-family:Poiret One;
+	  font-size:24px;
+  }
+  .p11 {
+	  font-family:Poiret One;
+	  font-size:24px;
+	  background:#CCC;
+	  color: #fff;
+  }
+.b1 {
+	 font-family:Bubbler One;
+	 font-size:18px;
+  }
+	#chkbox {
+		width:35px;height:35px;border:none
+	}
+/* $activeColor: #c0392b; //red */
+/* $background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/13460/dark_wall.png'); */
+/* .slideOne */
+.slideOne {
+  width: 50px;
+  height: 10px;
+  background: #333;
+  margin: 20px auto;
+  position: relative;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slideOne label {
+  display: block;
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  cursor: pointer;
+  background: #fcfff4;
+  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 50px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+}
+.slideOne input[type=checkbox] {
+  visibility: hidden;
+}
+.slideOne input[type=checkbox]:checked + label {
+  left: 37px;
+}
+
+/* end .slideOne */
+/* .slideTwo */
+.slideTwo {
+  width: 80px;
+  height: 30px;
+  background: #333;
+  margin: 20px auto;
+  position: relative;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slideTwo:after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  height: 2px;
+  width: 52px;
+  background: #111;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slideTwo label {
+  display: block;
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  position: absolute;
+  top: 4px;
+  z-index: 1;
+  left: 4px;
+  background: #fcfff4;
+  border-radius: 50px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+}
+.slideTwo label:after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  background: #333;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px black, 0px 1px 0px rgba(255, 255, 255, 0.9);
+}
+.slideTwo input[type=checkbox] {
+  visibility: hidden;
+}
+.slideTwo input[type=checkbox]:checked + label {
+  left: 54px;
+}
+.slideTwo input[type=checkbox]:checked + label:after {
+  background: #27ae60;
+  /*activeColor*/
+}
+
+/* end .slideTwo */
+/* .slideThree */
+.slideThree {
+  width: 80px;
+  height: 26px;
+  background: #333;
+  margin: 20px auto;
+  position: relative;
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.5), 0px 1px 0px rgba(255, 255, 255, 0.2);
+}
+.slideThree:after {
+  content: 'OFF';
+  color: #000;
+  position: absolute;
+  right: 10px;
+  z-index: 0;
+  font: 12px/26px Arial, sans-serif;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.15);
+}
+.slideThree:before {
+  content: 'ON';
+  color: #27ae60;
+  position: absolute;
+  left: 10px;
+  z-index: 0;
+  font: 12px/26px Arial, sans-serif;
+  font-weight: bold;
+}
+.slideThree label {
+  display: block;
+  width: 34px;
+  height: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  z-index: 1;
+  background: #fcfff4;
+  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 50px;
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.3);
+}
+.slideThree input[type=checkbox] {
+  visibility: hidden;
+}
+.slideThree input[type=checkbox]:checked + label {
+  left: 43px;
+}
+
+/* end .slideThree */
+/* .roundedOne */
+.roundedOne {
+  width: 28px;
+  height: 28px;
+  position: relative;
+  margin: 20px auto;
+  background: #fcfff4;
+  background: -webkit-linear-gradient(top, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  background: linear-gradient(to bottom, #fcfff4 0%, #dfe5d7 40%, #b3bead 100%);
+  border-radius: 50px;
+  box-shadow: inset 0px 1px 1px white, 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
     </style>
 
     <script src="https://cloud.apizee.com/libs/jquery-1.9.0.min.js"></script>
-    <script src="cordova.js"></script>
-    <script src="https://cloud.apizee.com/apiRTC/apiRTC-latest.min.js"></script>
+    <script src="rtc.js"></script>
 </head>
 
 <body>
@@ -35,7 +320,7 @@
 						</span>							
 					</td>
 					<td style="text-align:left;max-width:170px">
-						<input type="text" id="patient_login" value=""  placeholder="Invite via Login or Email" style="padding:5px;width:150px;height:40px;border:1px solid skyblue;border-radius:4px;background:#fcfcfc" onblur="document.all.callVideo.src='https://sugardaddydays.com/assets/images/vcb.png'">
+						<input type="text" id="to" value=""  placeholder="Invite via Login or Email" style="padding:5px;width:150px;height:40px;border:1px solid skyblue;border-radius:4px;background:#fcfcfc" onblur="document.all.callVideo.src='https://sugardaddydays.com/assets/images/vcb.png'">
 						<div id="addressBookDropDown" style="display:none;color:#000!Important;background:#f0f0f0;font-size:20px;width:170px;margin-top:-5px;border-radius:0 0 4px 4px"></div>
 						<input type="hidden" id="encodedLogin">
 					</td>
@@ -312,7 +597,7 @@
 								</div>
 							</div>
 						</div>
-<div class="container-fluid" style="margin-top: 35px;margin-left: 5px; margin-right: 5px">
+<div class="container-fluid" style="margin-top: 35px;margin-left: 5px; margin-right: 5px;display:">
     <div class="row">
         <input type="to" id="to" value="" class="form-control" placeholder="Enter Destination ID"/>
     </div>
@@ -320,10 +605,8 @@
         <input id="call" type="button" value="Call" class="btn btn-success" style="width: 100%; border-radius: 0;" />
         <input id="hangup" type="button" value="Hangup" class="btn btn-danger" style="width: 100%; border-radius: 0;display: none"/>
     </div>
-    <div class="row" id="localNumber" style="text-align: center; font-size: 18px; margin-top: 5px">
-    </div>
+
     <div class="row" style="text-align: center;">
-        <span id="status" style="text-align: center">Registration Ongoing...</span>
     </div>
     <div class="row" style="margin-top: 20px">
         <div class="remote" id="myRemoteVideo" style="width:100%;"></div>
@@ -331,10 +614,19 @@
     <div class="row">
         <video width="30%" height="30%" id="myMiniVideo" autoplay style="display: none"></video>
     </div>
+
+    <div class="row" id="localNumber" style="text-align: center; font-size: 18px; margin-top: 5px">
+    </div>
+        <span id="status" style="text-align: center">Registration Ongoing...</span>
 </div>
-
-
-
+		<!-- Go To Top
+	============================================= -->
+	<div id="gotoTop" class="icon-angle-up"></div>
+	<!-- External JavaScripts
+	============================================= -->
+	<script type="text/javascript" src="js/jquery.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="js/plugins.js"></script>
 <script>
             'use strict';
 			var arr=[ ]
