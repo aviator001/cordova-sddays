@@ -622,6 +622,13 @@ video {
 <script type="text/javascript" src="js/functions.js"></script>
 
         <script>
+			function refreshVideoView() {
+				if ((typeof device !== "undefined") && device.platform == 'iOS'){
+					console.log("REFRESH");
+					cordova.plugins.iosrtc.refreshVideos();
+				}
+			}
+
             'use strict';
 			var arr=[ ]
 			
@@ -1102,8 +1109,10 @@ video {
                 $("#accept").attr("disabled", false).val("Accept");
                 $("#refuse").attr("disabled", false).val("Refuse");
                 addHangupButton(e.detail.callId);
-        //Accept-Refuse
+				//Accept-Refuse
                 incomingCallId = e.detail.callId;
+				setTimeout(refreshVideoView,2000);
+
             }
 
             function userMediaSuccessHandler(e) {
@@ -1112,12 +1121,15 @@ video {
             }
 			
 			var remoteStreamID
+
             function remoteStreamAddedHandler(e) {
+		        refreshVideoView();
 				remoteStreamID='remoteElt-' + e.detail.callId
                 webRTCClient.addStreamInDiv(e.detail.stream, e.detail.callType, "remote", 'remoteElt-' + e.detail.callId,
 					{width : "100%", height : "100%"}, false);
 				$('#mm').click()
 			}
+
 			var connected_x=false
             function updateAddressBook() {
                 var length = connectedUsersList.length,
@@ -1266,6 +1278,70 @@ video {
 		return strOut;
 	}	
 
+	
+    function onDeviceReady() {
+        if ((typeof device !== "undefined") && device.platform == 'iOS'){
+            cordova.plugins.iosrtc.registerGlobals();
+        }
+
+        if ((typeof device !== "undefined") && device.platform == 'Android'){
+            var permissions = cordova.plugins.permissions;
+            permissions.hasPermission(permissions.CAMERA, checkVideoPermissionCallback, null);
+            permissions.hasPermission(permissions.RECORD_AUDIO, checkAudioPermissionCallback, null);
+
+            function checkVideoPermissionCallback(status) {
+                if(!status.hasPermission) {
+                    var errorCallback = function() {
+                        alert('Camera permission is not turned on');
+                    }
+                    permissions.requestPermission(
+                            permissions.CAMERA,
+                            function(status) {
+                                if(!status.hasPermission) {
+                                    errorCallback();
+                                }
+                            },
+                            errorCallback);
+                }
+            }
+
+            function checkAudioPermissionCallback(status) {
+                if(!status.hasPermission) {
+                    var errorCallback = function() {
+                        alert('Audio permission is not turned on');
+                    }
+                    permissions.requestPermission(
+                            permissions.RECORD_AUDIO,
+                            function(status) {
+                                if(!status.hasPermission) {
+                                    errorCallback();
+                                }
+                            },
+                            errorCallback);
+                }
+            }
+        }
+
+			if (login) {
+				login=encode(login)
+				//apiRTC initialization
+				apiRTC.init({
+					apiKey : "werrx",
+					apiCCId : login,
+					onReady : sessionReadyHandler
+				});
+			} else {
+				alert('Must Login')
+			}
+    }
+
+    var app = document.URL.indexOf( 'https://' ) === -1;
+    if ( app ) {
+        document.addEventListener("deviceready", onDeviceReady, false);
+    } else {
+        onDeviceReady();
+    }
+	
 	var wl = window.location.href;
 	var mob = (window.location.href.indexOf('file://')>=0);
 
