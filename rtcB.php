@@ -311,13 +311,32 @@ video {
 <body class="" style="" onload="fixHT()">
 <div class="" style="background-image: url('img/map7.png'); background-size:cover; filter:blur(10px);position:absolute;top:0;left:0;width:100%;height:100%;overflow:none"></div>
 
+	<!-- Document Wrapper
+	============================================= -->
+<? if ($is_mobile=="mobile") {
+$mw="100%";
+$ml="7%";
+$tw="70%";
+$lh="500px";
+?>
 	<div id="wrapper" style="width:100%;background:#fff;overflow:hidden">
 	<div style="width:100%;position:absolute;height:60px;top:0;left:0;background:#00D9D9" class="www_box7">
 	Back <img style="margin:auto;height:40px;position:absolute;left:0;right:0;margin:auto;top:10px;display:" src="images/logo4.png">
 	</div>
 	<div style="width:100%;position:absolute;z-index:99999999999999999;height:70px;background:#f0f0f0;bottom:0px;left:0;margin:0;font-size:15px!Important">
 	<span style="font-size:16px!Important;" id="status"></span><span style="font-size:16px!Important;" id="status2"></span></div>
-
+<? } else { ?>
+<? $mw="800px";?>
+<? $ml="50px";?>
+<? $tw="400px";?>
+<? $lh="600px";?>
+	<div id="wrapper" style="width:<?=$mw;?>;height:800px;overflow:hidden">
+	<div style="width:100%;position:absolute;height:60px;top:0;left:0;background:#00D9D9" class="www_box7">
+	<input type="button" value=" Back to Members Home " onclick="location.href='home.php'" class="btn btn-danger" style="position:absolute;top:10px;left:10px"> <img style="margin:auto;height:40px;position:absolute;left:0;right:0;margin:auto;top:10px;display:" src="images/logo4.png">
+	</div>
+	<div style="position:absolute;bottom:50px;left:0px;width:<?=$lh;?>;height:50px;right:0;margin:auto;font-size:36px">
+</div>
+<? } ?>
 		<!-- Header
 		============================================= -->
 		<div id="" class="" style="padding:20px;position:absolute;left:0;right:0;margin:auto!Important;top:50PX;height:225px;margin:auto;z-index:9;max-width:320px">
@@ -616,10 +635,9 @@ video {
 	<div id="gotoTop" class="icon-angle-up"></div>
 	<!-- External JavaScripts
 	============================================= -->
-<script type="text/javascript" src="js/jquery.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="js/plugins.js"></script>
-<script type="text/javascript" src="js/functions.js"></script>
 
         <script>
             'use strict';
@@ -659,13 +677,13 @@ video {
 			var login
 			var to_call
 			
-			var to = qs('to')
+			var to = '<?=$_GET[to];?>'
 			if (!to) to = $('#patient_login').val()
 //			if (!to) to = getCookie('invited_user')
 		
-			var login = qs('login')
+			var login = '<?=$_GET[login];?>'
 			if (login == '') login = getCookie('login')
-				else login = qs('login')
+				else login = '<?=$_GET[login];?>'
 
 			setCookie('login', login)
 			if (to) {
@@ -673,70 +691,6 @@ video {
 				document.getElementById('encodedLogin').value=encode(to)
 				to_call=encode(to)
 			}
-
-	var wl = window.location.href;
-	var mob = (window.location.href.indexOf('file://')>=0);
-
-	function setCookie(cname,cvalue)	{
-		if (mob===true) {
-			window.localStorage.setItem(cname, cvalue);
-		} else {
-			var d = new Date(); 
-			d.setTime(d.getTime()+(1*24*60*60*1000)); 
-			var expires = "expires="+d.toGMTString(); 
-			document.cookie = cname + "=" + cvalue + "; " + expires; 
-		}
-	} 
- 		function qs(name, url) {
-			if (!url) {
-			  url = window.location.href;
-			}
-			name = name.replace(/[\[\]]/g, "\\$&");
-			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-				results = regex.exec(url);
-			if (!results) return null;
-			if (!results[2]) return '';
-			return decodeURIComponent(results[2].replace(/\+/g, " "));
-		}
-
-	function getCookie(cname)	{ 
-		if (mob===true) {
-			var cvalue = window.localStorage.getItem(cname);
-			return cvalue
-		} else {
-			var name = cname + "="; 
-			var ca = document.cookie.split(';'); 
-			for(var i=0; i<ca.length; i++) { 
-			  var c = ca[i].trim(); 
-			  if (c.indexOf(name)==0) return c.substring(name.length,c.length); 
-			} 
-			return ""; 
-		}
-	} 
-
-	function delCookie(cname) {
-		if (mob===true) {
-			window.localStorage.removeItem(cname);
-		} else {
-			var d = new Date();
-			d.setTime(d.getTime());
-			var expires = "expires="+d.toGMTString();
-			document.cookie = cname + "=" + "" + "; " + expires;
-		}
-	}
-	
-	function clear_all() {
-		if (mob===true) {
-			 window.localStorage.clear();
-		} else {
-			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-		}	
-	}
-
-
-	function isNumber(n) {
-	  return !isNaN(parseFloat(n)) && isFinite(n);
-	}
 			
 			function setStatus(tx) {
 				$('#status').html(tx)
@@ -1162,16 +1116,35 @@ video {
                 apiRTC.addEventListener("userMediaError", userMediaErrorHandler);
                 apiRTC.addEventListener("hangup", hangupHandler);
                 apiRTC.addEventListener("remoteStreamAdded", remoteStreamAddedHandler);
+
+            //connectedUsersList
                 apiRTC.addEventListener("connectedUsersListUpdate", connectedUsersListUpdateHandler);
+            //connectedUsersList
+
+                //webRTC Client creation
                 webRTCClient = apiRTC.session.createWebRTCClient({
                     status : "status" //Optionnal
                 });
                 webRTCClient.getMediaDevices(gotSources);
+
+            //Multi calls Activation
+                //webRTCClient.setAllowMultipleCalls(true);
+
+            //Bandwitdh limitation
                 webRTCClient.setVideoBandwidth(1200);
+
+            //Accept-Refuse
                 webRTCClient.setUserAcceptOnIncomingCall(true);
+			//$('#modalAR').click()
+
+            //Call establishment
 			$("#callVideo").click(function () {
-			to = qs('to')
+				//$("#hangup").attr("disabled", false).val("Hangup");
+//			var to = '<?=$_GET[to];?>'
+//			if (!to) to = $('#patient_login').val()
+			to = '<?=$_GET[to];?>'
 			if (!to) to = $('#patient_login').val()
+//			if (!to) to = getCookie('invited_user')
 					if (to) {
 						callId = webRTCClient.call(encode(to));
 						if (callId != null) {
@@ -1305,7 +1278,9 @@ video {
 			document.cookie = cname + "=" + "" + "; " + expires;
 		}
 	}	
-
+</script>
+	<script type="text/javascript" src="js/functions.js"></script>
+<script>
 	var fn=['Active Ingredient','Brand Name','Generic Name','Substance Name','Diagnosis','Symptoms']
 	var tn=['active','brand','generic','substance','diagnosis','symptoms']
 	var bx=['www_box2','www_box5','www_box6','www_box7','www_box8','www_box9']
@@ -1506,6 +1481,5 @@ video {
       track: true
     });
   } );
-  </script>
-  </body>
+  </script></body>
 </html>
