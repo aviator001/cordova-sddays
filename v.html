@@ -688,19 +688,15 @@ video {
         }
 
 		//	if (!login) login=getCookie('login')
-			if (login) {
-				login=encode(login)
+			if (login) login=encode(login)
+				
 				//apiRTC initialization
 				apiRTC.init({
 					apiKey : "werrx",
 					apiCCId : login,
 					onReady : sessionReadyHandler
 				});
-			} else {
-				alert('Must Login')
-			}
-		}
-
+	}
             function checkVideoPermissionCallback(status) {
                 if(!status.hasPermission) {
                     var errorCallback = function() {
