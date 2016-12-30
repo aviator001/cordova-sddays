@@ -1,12 +1,7 @@
+
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
-<? include "utils.class.php";
-$c=new utils;
-if ($c->is_mobile()) {
-	$is_mobile="mobile";
-}
-?>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="SemiColonWeb" />
    <meta charset="utf-8">
@@ -311,13 +306,14 @@ video {
 <body class="" style="" onload="fixHT()">
 <div class="" style="background-image: url('img/map7.png'); background-size:cover; filter:blur(10px);position:absolute;top:0;left:0;width:100%;height:100%;overflow:none"></div>
 
+	<!-- Document Wrapper
+	============================================= -->
 	<div id="wrapper" style="width:100%;background:#fff;overflow:hidden">
 	<div style="width:100%;position:absolute;height:60px;top:0;left:0;background:#00D9D9" class="www_box7">
 	Back <img style="margin:auto;height:40px;position:absolute;left:0;right:0;margin:auto;top:10px;display:" src="images/logo4.png">
 	</div>
 	<div style="width:100%;position:absolute;z-index:99999999999999999;height:70px;background:#f0f0f0;bottom:0px;left:0;margin:0;font-size:15px!Important">
 	<span style="font-size:16px!Important;" id="status"></span><span style="font-size:16px!Important;" id="status2"></span></div>
-
 		<!-- Header
 		============================================= -->
 		<div id="" class="" style="padding:20px;position:absolute;left:0;right:0;margin:auto!Important;top:50PX;height:225px;margin:auto;z-index:9;max-width:320px">
@@ -414,9 +410,7 @@ video {
 		</table>
 		
 	</div></div>  
-<? if ($is_mobile!="mobile") { ?>
-	<div class="www_box2" style="position:fixed;font-size:20px;width:100%;text-align:center;color:#000;bottom:0px" id="status"></div>
-<? } ?>              </div>
+              </div>
             </div><!-- /.container -->
 	</div>
 <!-- #wrapper end -->
@@ -616,19 +610,11 @@ video {
 	<div id="gotoTop" class="icon-angle-up"></div>
 	<!-- External JavaScripts
 	============================================= -->
-<script type="text/javascript" src="js/jquery.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="js/plugins.js"></script>
-<script type="text/javascript" src="js/functions.js"></script>
 
         <script>
-			function refreshVideoView() {
-				if ((typeof device !== "undefined") && device.platform == 'iOS'){
-					console.log("REFRESH");
-					cordova.plugins.iosrtc.refreshVideos();
-				}
-			}
-
             'use strict';
 			var arr=[ ]
 			
@@ -680,7 +666,12 @@ video {
 				document.getElementById('encodedLogin').value=encode(to)
 				to_call=encode(to)
 			}
-
+			
+			function setStatus(tx) {
+				$('#status').html(tx)
+			}
+			var cssText
+			
 	var wl = window.location.href;
 	var mob = (window.location.href.indexOf('file://')>=0);
 
@@ -744,11 +735,14 @@ video {
 	function isNumber(n) {
 	  return !isNaN(parseFloat(n)) && isFinite(n);
 	}
-			
-			function setStatus(tx) {
-				$('#status').html(tx)
-			}
-			var cssText
+
+    function refreshVideoView() {
+        if ((typeof device !== "undefined") && device.platform == 'iOS'){
+            console.log("REFRESH");
+            cordova.plugins.iosrtc.refreshVideos();
+        }
+    }
+
 //SELECT_MEDIA
             // camera select
             var audioSelect = document.querySelector("select#audioSource"),
@@ -1111,8 +1105,7 @@ video {
                 addHangupButton(e.detail.callId);
 				//Accept-Refuse
                 incomingCallId = e.detail.callId;
-				setTimeout(refreshVideoView,2000);
-
+		        setTimeout(refreshVideoView,2000);
             }
 
             function userMediaSuccessHandler(e) {
@@ -1121,15 +1114,14 @@ video {
             }
 			
 			var remoteStreamID
-
             function remoteStreamAddedHandler(e) {
-		        refreshVideoView();
 				remoteStreamID='remoteElt-' + e.detail.callId
                 webRTCClient.addStreamInDiv(e.detail.stream, e.detail.callType, "remote", 'remoteElt-' + e.detail.callId,
 					{width : "100%", height : "100%"}, false);
 				$('#mm').click()
-			}
+		        refreshVideoView();
 
+			}
 			var connected_x=false
             function updateAddressBook() {
                 var length = connectedUsersList.length,
@@ -1174,16 +1166,35 @@ video {
                 apiRTC.addEventListener("userMediaError", userMediaErrorHandler);
                 apiRTC.addEventListener("hangup", hangupHandler);
                 apiRTC.addEventListener("remoteStreamAdded", remoteStreamAddedHandler);
+
+            //connectedUsersList
                 apiRTC.addEventListener("connectedUsersListUpdate", connectedUsersListUpdateHandler);
+            //connectedUsersList
+
+                //webRTC Client creation
                 webRTCClient = apiRTC.session.createWebRTCClient({
                     status : "status" //Optionnal
                 });
                 webRTCClient.getMediaDevices(gotSources);
+
+            //Multi calls Activation
+                //webRTCClient.setAllowMultipleCalls(true);
+
+            //Bandwitdh limitation
                 webRTCClient.setVideoBandwidth(1200);
+
+            //Accept-Refuse
                 webRTCClient.setUserAcceptOnIncomingCall(true);
+			//$('#modalAR').click()
+
+            //Call establishment
 			$("#callVideo").click(function () {
-			to = qs('to')
+				//$("#hangup").attr("disabled", false).val("Hangup");
+//			var to = ''
+//			if (!to) to = $('#patient_login').val()
+			to = ''
 			if (!to) to = $('#patient_login').val()
+//			if (!to) to = getCookie('invited_user')
 					if (to) {
 						callId = webRTCClient.call(encode(to));
 						if (callId != null) {
@@ -1232,57 +1243,14 @@ video {
             $("#addressBook").on('click', function() {
                 $("#addressBookDropDown").toggle();
             });
-//			if (!login) login=getCookie('login')
-			if (login) {
-				login=encode(login)
-				//apiRTC initialization
-				apiRTC.init({
-					apiKey : "werrx",
-					apiCCId : login,
-					onReady : sessionReadyHandler
-				});
-			} else {
-				alert('Must Login')
-			}
 
 
-	function hangup_now() {
-		webRTCClient.hangUp();
-	}
-	
-	function startView() {
-		$('#modalRemote').modal('show')	
-		//$('#mm').click()	
-	}
-	function startCam() {
-		$('#callVideo').click()	
-	}
-
-	function encode(str){
-		var nums = '';
-		for(var i=0; i<str.length; i++) {
-			nums += arr.indexOf(str[i]).toString().trim()
-		}
-		return nums
-	}
-
-	function decode(um){
-		var st=um.split('|')
-		console.log(um)
-		var strOut = '';
-		for(var i=0; i<um.length; i+=2){
-			console.log(i + ': ' + um.substring(i,i+2)*1)
-			var s=(um.substring(i,i+2)*1);
-			strOut += arr[s*1]
-		}
-		return strOut;
-	}	
-
-	
     function onDeviceReady() {
+
         if ((typeof device !== "undefined") && device.platform == 'iOS'){
             cordova.plugins.iosrtc.registerGlobals();
         }
+
 
         if ((typeof device !== "undefined") && device.platform == 'Android'){
             var permissions = cordova.plugins.permissions;
@@ -1322,6 +1290,7 @@ video {
             }
         }
 
+		//	if (!login) login=getCookie('login')
 			if (login) {
 				login=encode(login)
 				//apiRTC initialization
@@ -1333,7 +1302,7 @@ video {
 			} else {
 				alert('Must Login')
 			}
-    }
+		}
 
     var app = document.URL.indexOf( 'https://' ) === -1;
     if ( app ) {
@@ -1342,6 +1311,38 @@ video {
         onDeviceReady();
     }
 	
+	function hangup_now() {
+		webRTCClient.hangUp();
+	}
+	
+	function startView() {
+		$('#modalRemote').modal('show')	
+		//$('#mm').click()	
+	}
+	function startCam() {
+		$('#callVideo').click()	
+	}
+
+	function encode(str){
+		var nums = '';
+		for(var i=0; i<str.length; i++) {
+			nums += arr.indexOf(str[i]).toString().trim()
+		}
+		return nums
+	}
+
+	function decode(um){
+		var st=um.split('|')
+		console.log(um)
+		var strOut = '';
+		for(var i=0; i<um.length; i+=2){
+			console.log(i + ': ' + um.substring(i,i+2)*1)
+			var s=(um.substring(i,i+2)*1);
+			strOut += arr[s*1]
+		}
+		return strOut;
+	}	
+
 	var wl = window.location.href;
 	var mob = (window.location.href.indexOf('file://')>=0);
 
@@ -1381,7 +1382,9 @@ video {
 			document.cookie = cname + "=" + "" + "; " + expires;
 		}
 	}	
-
+</script>
+	<script type="text/javascript" src="js/functions.js"></script>
+<script>
 	var fn=['Active Ingredient','Brand Name','Generic Name','Substance Name','Diagnosis','Symptoms']
 	var tn=['active','brand','generic','substance','diagnosis','symptoms']
 	var bx=['www_box2','www_box5','www_box6','www_box7','www_box8','www_box9']
@@ -1502,8 +1505,8 @@ video {
 		}
 	}		
 			
-		 // document.getElementById('bb').style.width='<?=$tw;?>'
-		 // document.getElementById('bb').style.marginLeft='<?=$ml;?>'
+		 // document.getElementById('bb').style.width='70%'
+		 // document.getElementById('bb').style.marginLeft='7%'
 	
 	function voice(to,from,txt) {
 		if (!cnf) var cnf='SMS Sent'
