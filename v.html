@@ -19,12 +19,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <link href="https://fonts.googleapis.com/css?family=Bubbler+One|Just+Another+Hand|Open+Sans+Condensed:300|Poiret+One|Wire+One" rel="stylesheet"/>
 =======
 <link href="https://fonts.googleapis.com/css?family=Bubbler+One|Just+Another+Hand|Open+Sans+Condensed:300|Poiret+One|Wire+One" rel="stylesheet">
+=======
+	<link href="https://fonts.googleapis.com/css?family=Bubbler+One|Just+Another+Hand|Open+Sans+Condensed:300|Poiret+One|Wire+One" rel="stylesheet"/>
+>>>>>>> parent of b80043b... s
 
-<!--[if lt IE 9]>
+    <link href="css/bootstrap.min.css" rel="stylesheet"/>
 
+<<<<<<< HEAD
 	<![endif]-->
 >>>>>>> parent of 9762f11... er
 
@@ -38,12 +43,17 @@
 
     <link href="css/bootstrap.min.css" rel="stylesheet"/>
 
+=======
+>>>>>>> parent of b80043b... s
     <style>
 		
         .remote video {
             width: 100% !important;
         }
        body {
+<<<<<<< HEAD
+>>>>>>> parent of b80043b... s
+=======
 >>>>>>> parent of b80043b... s
             display: flex;
             min-height: 100vh;
@@ -315,6 +325,7 @@ video {
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 <!--       <script src="https://cloud.apizee.com/apiRTC/apiRTC-latest.min.js"></script> -->
 <script type="text/javascript" src="rtc.js"></script>
 =======
@@ -330,6 +341,11 @@ video {
 <body class="" style="" onload="fixHT()">
 <div class="" style="background-image: url('img/map7.png'); background-size:cover; filter:blur(10px);position:absolute;top:0;left:0;width:100%;height:100%;overflow:none"></div>
 >>>>>>> parent of 9762f11... er
+=======
+    <script src="https://cloud.apizee.com/libs/jquery-1.9.0.min.js"></script>
+    <script src="rtc.js"></script>
+</head>
+>>>>>>> parent of b80043b... s
 
 <body>
 	<div id="wrapper" style="width:100%;background:#fff;overflow:hidden">
@@ -617,7 +633,7 @@ video {
 													</td>
 													<td>
 															HUNT MODE
-  													</td>
+  													</td>  
 												</tr>
 												<tr>
 													<td colspan=2 style="text-align:center;padding:5px;font-size:21px">
@@ -722,6 +738,7 @@ video {
             cordova.plugins.iosrtc.refreshVideos();
         }
     }
+<<<<<<< HEAD
 
     function incomingCallHandler(e) {
         $("#callVideo").hide();
@@ -731,6 +748,17 @@ video {
         setTimeout(refreshVideoView,2000);
     }
 
+=======
+
+    function incomingCallHandler(e) {
+        $("#callVideo").hide();
+        $("#to").hide();
+        $("#hangup").show();
+        $('#status').hide();
+        setTimeout(refreshVideoView,2000);
+    }
+
+>>>>>>> parent of b80043b... s
     function hangupHandler(e) {
         $("#callVideo").show();
         $("#to").show();
@@ -797,6 +825,7 @@ video {
             permissions.hasPermission(permissions.RECORD_AUDIO, checkAudioPermissionCallback, null);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         }
 }
 		//	if (!login) login=getCookie('login')
@@ -809,6 +838,8 @@ video {
 					onReady : sessionReadyHandler
 				});
 
+=======
+>>>>>>> parent of b80043b... s
 =======
 >>>>>>> parent of b80043b... s
             function checkVideoPermissionCallback(status) {
