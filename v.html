@@ -61,7 +61,7 @@
         .container.formu #hangup,
         .container.formu #accept,
         .container.formu #refuse,
-        .container.formu #call {
+        .container.formu #callVideo {
             background: transparent;
             border: none;
         }
@@ -397,7 +397,7 @@ video {
 			<tr><td>
 				<a href="#"><image src="images/tele_med.png"style="width:55px;display:none" data-toggle="modal" data-target="#modalAR" id="tm"></a>
 				<a href="#"><image src="images/tele_med.png"style="width:55px;display:none" data-toggle="modal" data-target="#modalAlert" id="am"></a>
-				<input id="hangup" class="btn btn-danger" type="button" disabled="true" value="Hangup" style="display:none"/>
+				<input id="btnHangup" class="btn btn-danger" type="button" disabled="true" value="Hangup" style="display:none"/>
 			</td></tr>
 		</table>
 		
@@ -422,7 +422,7 @@ video {
 								</div>
 							</div>
 						</div>
-						<div class="modal fade" id="modalRemote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999" onclick="goFullScreen()">
+						<div class="modal fade" id="modalRemote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999">
 							<div class="modal-dialog">
 								<div class="modal-body">
 									<div class="modal-content">
@@ -431,8 +431,9 @@ video {
 											<h4 class="modal-title" id="myModalLabel">REMOTE VIDEO STREAM</h4>
 										</div>
 										<div id="hangupButtons"></div>
-										<div class="modal-body" id="remote" style="width:100%;height:100%;object-fit:cover;padding:0;margin:0;text-align:center">
+										<div class="modal-body" id="myRemoteVideo" style="width:100%;height:100%;object-fit:cover;padding:0;margin:0;text-align:center">
 										</div>
+										<img id="hangup" src="images/hangup.png" style="left:0;right:0;position:absolute;margin:auto;bottom:5px;width:50px" onclick="">
 									</div>
 								</div>
 							</div>
@@ -446,7 +447,7 @@ video {
 											<h4 class="modal-title" id="miniModalLabel">MY LOCAL VIDEO STREAM</h4>
 										</div>
 										<div id="hangupButtons"></div>
-										<div class="modal-body" id="mini" style="width:100%;height:100%;object-fit:cover;padding:0;margin:0;text-align:center">
+										<div class="modal-body" id="myMiniVideo" style="width:100%;height:100%;object-fit:cover;padding:0;margin:0;text-align:center">
 										</div>
 									</div>
 								</div>
@@ -691,7 +692,7 @@ video {
     }
 
     function incomingCallHandler(e) {
-        $("#call").hide();
+        $("#callVideo").hide();
         $("#to").hide();
         $("#hangup").show();
         $('#status').hide();
@@ -699,7 +700,7 @@ video {
     }
 
     function hangupHandler(e) {
-        $("#call").show();
+        $("#callVideo").show();
         $("#to").show();
         $("#hangup").hide();
         $('#status').html(e.detail.reason);
@@ -707,7 +708,7 @@ video {
     }
 
     function userMediaErrorHandler(e) {
-        $("#call").show();
+        $("#callVideo").show();
         $("#to").show();
         $("#hangup").hide();
     }
@@ -728,28 +729,26 @@ video {
             remoteVideo : "myRemoteVideo"
         });
 
-        $('#localNumber').html("You can be reached at: " + decode(apiCC.session.apiCCId));
+      alert("You can be reached at: " + decode(apiCC.session.apiCCId));
         $('#myMiniVideo').show();
         $('#status').hide();
 
-        $("#call").click(function () {
-            $("#call").hide();
+        $("#callVideo").click(function () {
+            $("#callVideo").hide();
             $("#to").hide();
             $("#hangup").show();
             $('#status').hide();
 
-            destNumber = $("#to").val();
+            var destNumber = $("#to").val();
             console.log("send REFRESH");
             setTimeout(refreshVideoView,4000);
             webRTCClient.call(encode(destNumber));
+			$('#modalRemote').modal('show')
         });
 
         $("#hangup").click(function () {
-            $("#call").show();
-            $("#to").show();
-            $("#hangup").hide();
-
-            webRTCClient.hangUp();
+			$('#modalRemote').modal('hide')
+			webRTCClient.hangUp();
         });
     }
 
