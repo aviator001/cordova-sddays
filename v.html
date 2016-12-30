@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
@@ -614,64 +613,77 @@ video {
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="js/plugins.js"></script>
 
-        <script>
-            'use strict';
-			var arr=[ ]
-			
-			for(var i=0; i<10; i++) {
-				arr.push(null)
-			}			
-			
-			for(var i=0; i<10; i++) {
-				arr.push(i.toString())
-			}
+<script>
 
-			for(var i=97; i<123; i++) {
-				arr.push(String.fromCharCode(i))
-			}
-			arr.push('-')
-			arr.push('_')
-			arr.push('.')
-			arr.push('$')
-			arr.push('*')
-			arr.push('@')
-			arr.push('!')
-			arr.push('#')
-			arr.push('%')
-			arr.push('+')
-			arr.push('&')
-			arr.push('=')
-			arr.push('?')
+    function refreshVideoView() {
+        if ((typeof device !== "undefined") && device.platform == 'iOS'){
+            console.log("REFRESH");
+            cordova.plugins.iosrtc.refreshVideos();
+        }
+    }
 
-            var session = null,
-                webRTCClient = null,
-                connectedUsersList = [],
-        //Accept-Refuse
-                incomingCallId = 0;
-			var num
-			var login
-			var to_call
-			
-			var to = qs('to')
-			if (!to) to = $('#patient_login').val()
-//			if (!to) to = getCookie('invited_user')
-		
-			var login = qs('login')
-			if (login == '') login = getCookie('login')
-				else login = qs('login')
+    function incomingCallHandler(e) {
+        $("#call").hide();
+        $("#number").hide();
+        $("#hangup").show();
+        $('#status').hide();
+        setTimeout(refreshVideoView,2000);
+    }
 
-			setCookie('login', login)
-			if (to) {
-				document.getElementById('patient_login').value=to
-				document.getElementById('encodedLogin').value=encode(to)
-				to_call=encode(to)
-			}
-			
-			function setStatus(tx) {
-				$('#status').html(tx)
-			}
-			var cssText
+    function hangupHandler(e) {
+        $("#call").show();
+        $("#number").show();
+        $("#hangup").hide();
+        $('#status').html(e.detail.reason);
+        $('#status').show();
+    }
 
+    function userMediaErrorHandler(e) {
+        $("#call").show();
+        $("#number").show();
+        $("#hangup").hide();
+    }
+
+    function remoteStreamAddedHandler(e) {
+        refreshVideoView();
+    }
+
+    function sessionReadyHandler(e) {
+
+        apiRTC.addEventListener("incomingCall", incomingCallHandler);
+        apiRTC.addEventListener("userMediaError", userMediaErrorHandler);
+        apiRTC.addEventListener("remoteStreamAdded", remoteStreamAddedHandler);
+        apiRTC.addEventListener("hangup", hangupHandler);
+
+        var webRTCClient = apiCC.session.createWebRTCClient({
+            minilocalVideo : "myMiniVideo",
+            remoteVideo : "myRemoteVideo"
+        });
+
+        $('#localNumber').html("Your local ID :<BR/>"+apiCC.session.apiCCId);
+        $('#myMiniVideo').show();
+        $('#status').hide();
+
+        $("#call").click(function () {
+            $("#call").hide();
+            $("#number").hide();
+            $("#hangup").show();
+            $('#status').hide();
+
+            destNumber = $("#number").val();
+            console.log("send REFRESH");
+            setTimeout(refreshVideoView,4000);
+            webRTCClient.call(destNumber);
+        });
+
+        $("#hangup").click(function () {
+            $("#call").show();
+            $("#number").show();
+            $("#hangup").hide();
+
+            webRTCClient.hangUp();
+        });
+    }
 
     function onDeviceReady() {
 
@@ -685,18 +697,6 @@ video {
             permissions.hasPermission(permissions.CAMERA, checkVideoPermissionCallback, null);
             permissions.hasPermission(permissions.RECORD_AUDIO, checkAudioPermissionCallback, null);
 
-        }
-
-		//	if (!login) login=getCookie('login')
-			if (login) login=encode(login)
-				
-				//apiRTC initialization
-				apiRTC.init({
-					apiKey : "werrx",
-					apiCCId : login,
-					onReady : sessionReadyHandler
-				});
-	}
             function checkVideoPermissionCallback(status) {
                 if(!status.hasPermission) {
                     var errorCallback = function() {
@@ -727,758 +727,23 @@ video {
                             },
                             errorCallback);
                 }
-            }		
+            }
+        }
+
+        apiRTC.init({
+            //apiCCId : "12", // Your can overide your number
+            onReady: sessionReadyHandler,
+            apiKey : "myDemoApiKey"
+        });
+
+    }
+
     var app = document.URL.indexOf( 'https://' ) === -1;
     if ( app ) {
         document.addEventListener("deviceready", onDeviceReady, false);
     } else {
         onDeviceReady();
     }
-	if (document.URL.indexOf( 'file:///G:' ) > -1) onDeviceReady();
-	
-	var wl = window.location.href;
-	var mob = (window.location.href.indexOf('file://')>=0);
-
-	function setCookie(cname,cvalue)	{
-		if (mob===true) {
-			window.localStorage.setItem(cname, cvalue);
-		} else {
-			var d = new Date(); 
-			d.setTime(d.getTime()+(1*24*60*60*1000)); 
-			var expires = "expires="+d.toGMTString(); 
-			document.cookie = cname + "=" + cvalue + "; " + expires; 
-		}
-	} 
- 		function qs(name, url) {
-			if (!url) {
-			  url = window.location.href;
-			}
-			name = name.replace(/[\[\]]/g, "\\$&");
-			var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-				results = regex.exec(url);
-			if (!results) return null;
-			if (!results[2]) return '';
-			return decodeURIComponent(results[2].replace(/\+/g, " "));
-		}
-
-	function getCookie(cname)	{ 
-		if (mob===true) {
-			var cvalue = window.localStorage.getItem(cname);
-			return cvalue
-		} else {
-			var name = cname + "="; 
-			var ca = document.cookie.split(';'); 
-			for(var i=0; i<ca.length; i++) { 
-			  var c = ca[i].trim(); 
-			  if (c.indexOf(name)==0) return c.substring(name.length,c.length); 
-			} 
-			return ""; 
-		}
-	} 
-
-	function delCookie(cname) {
-		if (mob===true) {
-			window.localStorage.removeItem(cname);
-		} else {
-			var d = new Date();
-			d.setTime(d.getTime());
-			var expires = "expires="+d.toGMTString();
-			document.cookie = cname + "=" + "" + "; " + expires;
-		}
-	}
-	
-	function clear_all() {
-		if (mob===true) {
-			 window.localStorage.clear();
-		} else {
-			document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
-		}	
-	}
-
-
-	function isNumber(n) {
-	  return !isNaN(parseFloat(n)) && isFinite(n);
-	}
-
-    function refreshVideoView() {
-        if ((typeof device !== "undefined") && device.platform == 'iOS'){
-            console.log("REFRESH");
-            cordova.plugins.iosrtc.refreshVideos();
-        }
-    }
-
-			function goFullScreen() {
-				if (document.getElementById(remoteStreamID)) {
-					var vid=document.getElementById(remoteStreamID)
-					document.documentElement.appendChild(vid)
-					$('#wrapper').hide()
-					vid.style.cssText="position:absolute!Important;top:0!Important;left:0!Important;width:100%;object-fit:cover!Important;z-index:999999999999999999999!Important"	
-				}
-			}
-			
-			function jmsg(txt,jtype,txtTitle) {
-				$('#status').hide()
-				if (txt=="Call_Crossing_Detected") txt="<p>The person you called hung up on you.</p><p>Or the call was dropped (the latter being unlikely, but possible</p>)"
-				if (txt=="Call_Crossing_Detected") return
-				if (txt=="User_Media_Error") txt=""
-				if (!txtTitle) {
-					if (jtype=='err') txtTitle='Error'
-						else txtTitle='Info'
-				}
-				txtTitle=txtTitle.toUpperCase()
-				if (!txt) txt = 'No Message'
-				if (!jtype) jtype = 'info'
-				document.getElementById('jh').style.background='#00DAA2'
-				if (jtype=='err') {
-					document.getElementById('jh').style.background='red'
-				} else if (jtype=='query') {
-					document.getElementById('jh').style.background='gold'
-				}
-				$('#msgBody').html(txt)
-				$('#msgHeader').html('<span><img style="width:40px;text-shadow:0 0 1px #fff" src="images/z_'+jtype+'.png"></span><span style="margin:10px;margin-top:25px">'+txtTitle+'</span>')
-				$('#modalJMsg').modal('show')
-			}
-			function hide_invite() {
-				$('#modalJMsg').modal('hide')
-			}
-			function invite_user() {
-				$('#status').hide()
-				to=document.getElementById('patient_login').value
-				setCookie('invited_user', to)
-				hide_invite()
-				$('#modalInvite').modal('show');
-				//sms(strINV,getCookie('mobile'),'https://werrx.com/rtcB.php?mobile=' + strINV10)
-			}
-
-			var sendSMSMsg
-			var sendVoice
-			var sendVoiceMsg
-			var sendEmail
-			var sendEmailMsg
-			
-			function setC(obj) {
-				if ((obj.id=="chkVoiceMsg") && (obj.checked===true)) $('#txtVoice').show()
-					else $('#txtVoice').hide()
-				if ((obj.id=="chkSMSMsg") && (obj.checked===true)) $('#txtSMS').show()
-					else $('#txtSMS').hide()
-				if ((obj.id=="chkEmailMsg") && (obj.checked===true)) $('#txtEmail').show()
-					else $('#txtEmail').hide()
-			}
-			
-			function go_next() {
-				var email=document.getElementById('email').value
-				var str=document.getElementById('mobile').value
-				str = str.replace(/\(/g, '');
-				str = str.replace(/\)/g, '');
-				str = str.replace(/-/g, '');
-				str = str.replace(/\+/g, '');
-				str = str.replace(/ /g, '');
-				str = str.replace(/\./g, '');
-				if (str.length==10) {
-					if (str.substring(0,1) == '1') {
-						jmsg('Invalid Mobile')
-						return false
-					} else if (str.substring(0,1) == '0') {
-						jmsg('Invalid Mobile')
-						return false
-					} else {
-						str = '1'+str
-					}
-				} else {
-					if (str.length==11) {
-						if (str.substring(0,1) != '1') {
-							jmsg('Invalid Mobile')
-							return false
-						} else {
-							str=str.substring(1,11)
-						}
-					} else {
-						jmsg('Invalid Mobile')
-						return false
-					}
-				}
-				var mobile=str
-				setCookie('mobile',str)
-
-				if (!mobile && !email) {
-					jmsg('Must enter at least one - mobile or email','err')
-					if (!mobile) document.getElementById('mobile').style.border='2px solid red'
-					if (!email) document.getElementById('email').style.border='2px solid red'
-					return false
-				}
-				if (document.getElementById('chkSMSMsg').checked===true) sendSMSMsg=true
-				if (document.getElementById('chkVoice').checked===true) sendVoice=true
-				if (document.getElementById('chkVoiceMsg').checked===true) sendVoiceMsg=true
-				if (document.getElementById('chkEmail').checked===true) sendEmail=true
-				if (document.getElementById('chkEmailMsg').checked===true) sendEmailMsg=true
-				
-				if  (sendSMSMsg===true) 
-					var smsMessage = $('#txtSMS').text()
-				else 
-					var smsMessage = 'INVITE'
-				
-				sms()
-				
-				if  (sendVoiceMsg===true) 
-					var voiceMessage = $('#txtVoice').text()
-				else 
-					var voiceMessage = 'Hello, this a courtesy call to inform you that you have received a request to join a video call. In order to join please click the link sent to you via text message to your phone'
-				if (sendVoice===true) {
-					voice('1'+getCookie('invited_user'), getCookie('mobile'), voiceMessage)
-				}
-				if  (sendEmailMsg===true) 
-					var emailMessage = $('#txtEmail').text()
-				else 
-					var emailMessage = "Hello, this a courtesy call to inform you that you have received a request to join a video call from "+getCookie('login')+". In order to join please click the link below \r\n\r\n" + "https://werrx.com/rtcB.php?login=" + getCookie('invited_user')+'&to='+encode(getCookie('login'))
-				if (sendEmail===true) {
-					email($('#user_email').val(), getCookie('mobile'), emailMessage)
-				}
-				$('#modalInvite').modal('hide');
-				setTimeout('show_next()',1000)
-			}
-			
-			function show_next() {
-				$('#status').show()
-				$('#status').html('Calling ...')
-				$('#modalCalling').modal('show');
-			}
-			
-            function selectPhonebookItem(idItem) {
-                $("#patient_login").val(idItem);
-                $("#enCodedLogin").val(encode(idItem));
-				to_call=encode(idItem)
-                $("#addressBookDropDown").toggle();
-            }
-			var mediaElt = null, divElement = null;
-            //Function to add media stream in Div
-            function addStreamInDiv(stream, callType, divId, mediaEltId, style, muted) {
-
-				if (callType === 'audio') {
-                    mediaElt = document.createElement("audio");
-                } else {
-                    mediaElt = document.createElement("video");
-                }
-                mediaElt.id = mediaEltId;
-                mediaElt.autoplay = true;
-                mediaElt.muted = muted;
-
-                mediaElt.style.width = style.width;
-                mediaElt.style.height = style.height;
-
-                divElement = document.getElementById(divId);
-                divElement.appendChild(mediaElt);
-
-                webRTCClient.attachMediaStream(mediaElt, stream);
-            }
-
-            //Function to remove media stream element
-            function removeElementFromDiv(divId, eltId) {
-
-                var element = null,
-                    divElement = null;
-
-                element = document.getElementById(eltId);
-                if (element !== null) {
-                    divElement = document.getElementById(divId);
-                    divElement.removeChild(element);
-                }
-				$('#modalRemote').modal('hide');
-				$('#modalMini').modal('hide');						
-            }
-
-            function initMediaElementState(callId) {
-                //function that remove media element on hangup
-
-            //You can decide to manage your own stream display function or use the integrated one of ApiRTC
-            /*
-                removeElementFromDiv('mini', 'miniElt-' + callId)
-                removeElementFromDiv('remote', 'remoteElt-' + callId)
-            */
-                webRTCClient.removeElementFromDiv('mini', 'miniElt-' + callId);
-                webRTCClient.removeElementFromDiv('remote', 'remoteElt-' + callId);
-				$('#modalRemote').modal('hide');
-				$('#modalMini').modal('hide');						
-            }
-			
-			var hangupButtons
-			var simg
-			
-            function addHangupButton(callId) {
-                var hangupButtons = document.getElementById("hangupButtons"),
-                input = document.createElement("input");
-                input.setAttribute("id", "hangup-" + callId);
-                //input.setAttribute("value", "hangup-" + callId);
-                input.setAttribute("type", "button");
-                input.setAttribute("onclick", "webRTCClient.hangUp(" + callId + " );");
-                hangupButtons.appendChild(input);
-				input.style.cssText="position:absolute;left:0;right:0;margin:auto;bottom:5px;z-index:99999999999999999999999999;height:55px;width:55px;background:url(images/hangup.png);background-size:cover;border:none"
-			}
-			
-            function removeHangupButton(callId) {
-                var hangupButtonId = 'hangup-' + callId,
-                    hangupButton = document.getElementById(hangupButtonId),
-                    hangupButtons = null;
-
-                if (hangupButton !== null) {
-                    hangupButtons = document.getElementById("hangupButtons");
-                    hangupButtons.removeChild(hangupButton);
-                }
-            }
-
-            function userMediaErrorHandler(e) {
-                $("#call").attr("disabled", false).val("Call");
-                $("#hangup").attr("disabled", false).val("Hangup");
-				
-            }
-
-            function hangupHandler(e) {
-                if (e.detail.lastEstablishedCall === true) {
-                    //$("#call").attr("disabled", false).val("Call");
-                }
-				$('#modalRemote').modal('hide');
-				$('#modalMini').modal('hide');
-                if (e.detail.reason=='User_Not_Found') {
-					jmsg('Looks like the user isnt online.<br><br>Would you like us to track them down for you? If they are in any way connected to anyh device, we <i><b>will</b></i> find them. And let them know that you are waiting.<br><br>Just for you. So, whats it gonna be?<br><br><input type="button" style="font-size:18px" class="btn btn-info" value="Sure, track them!" onclick="invite_user()"> <input style="font-size:18px" type="button" class="btn btn-danger" value="Its OK, Ill Pass" onclick="hide_invite()">')
-					//TO DO: Get all error codes and set user friendly messages for each
-				} else {
-					jmsg(e.detail.reason);
-					initMediaElementState(e.detail.callId);
-					removeHangupButton(e.detail.callId);
-					$('#modalRemote').hide();
-					$('#modalMini').hide();				
-					$('.modal-backdrop.fade.in').hide()
-					setTimeout('ref()',3000)
-				}
-            }
-
-			function ref() {
-				location.reload()	
-			}
-			
-            function incomingCallHandler(e) {
-                $("#tm").click()
-				$('#arBody').html('INCOMING CALL FROM ' + decode(e.detail.callerId))
-				$("#hangup").attr("disabled", false).val("Hangup");
-                $("#accept").attr("disabled", false).val("Accept");
-                $("#refuse").attr("disabled", false).val("Refuse");
-                addHangupButton(e.detail.callId);
-				//Accept-Refuse
-                incomingCallId = e.detail.callId;
-		        setTimeout(refreshVideoView,2000);
-            }
-
-            function userMediaSuccessHandler(e) {
-				webRTCClient.addStreamInDiv(e.detail.stream, e.detail.callType, "mini", 'miniElt-' + e.detail.callId,
-                {width : "128px", height : "96px"}, true);
-            }
-			
-			var remoteStreamID
-            function remoteStreamAddedHandler(e) {
-				remoteStreamID='remoteElt-' + e.detail.callId
-                webRTCClient.addStreamInDiv(e.detail.stream, e.detail.callType, "remote", 'remoteElt-' + e.detail.callId,
-					{width : "100%", height : "100%"}, false);
-				$('#mm').click()
-		        refreshVideoView();
-
-			}
-			var connected_x=false
-            function updateAddressBook() {
-                var length = connectedUsersList.length,
-                    i = 0;
-
-                //Cleaning addressBook list
-                $("#addressBookDropDown").empty();
-
-                for (i = 0; i < length; i += 1) {
-					//Checking to see if the user signed in is the user we invited
-					if (getCookie('invited_user')) {
-						if (getCookie('invited_user')==decode(connectedUsersList[i].userId)) {
-							//Call and connect to invited User
-							$('#modalCalling').modal('hide') 
-							if (to) {
-								setTimeout('startCam()',5000)
-							}
-						}
-					}
-                    //Checking if connectedUser is not current user befire adding in addressBook list
-                    if (connectedUsersList[i].userId !== apiRTC.session.apiCCId) {
-                        if(connectedUsersList[i].group !== undefined) {
-                            $("#addressBookDropDown").append('<a href="#" onclick="selectPhonebookItem(\'' + decode(connectedUsersList[i].userId) + '\')"><div class="www_box2" style="border-radius:0!Important;color:#000!Important;width:100%;padding-left:10px;height:35px"><span style="color:#000">' + connectedUsersList[i].userId + ' - ' + connectedUsersList[i].group + '</span></div></a>');
-                        } else {
-                            $("#addressBookDropDown").append('<a href="#" onclick="selectPhonebookItem(\'' + decode(connectedUsersList[i].userId) + '\')"><div class="www_box2" style="border-radius:0!Important;color:#000!Important;width:100%;padding-left:10px;height:35px"><span style="color:#000">' + decode(connectedUsersList[i].userId) + '</span></div></a>');
-                        }
-                    }
-                }
-            }
-
-            function connectedUsersListUpdateHandler(e) {
-               connectedUsersList = apiRTC.session.getConnectedUserIdsList();
-                //Updating addressBook
-                updateAddressBook();
-            }
-			var callId
-			//sessionReadyHandler : apiRTC is now connected
-            function sessionReadyHandler(e) {
-			//	$('.modal-backdrop.fade.in').hide()
-                apiRTC.addEventListener("userMediaSuccess", userMediaSuccessHandler);
-                apiRTC.addEventListener("incomingCall", incomingCallHandler);
-                apiRTC.addEventListener("userMediaError", userMediaErrorHandler);
-                apiRTC.addEventListener("hangup", hangupHandler);
-                apiRTC.addEventListener("remoteStreamAdded", remoteStreamAddedHandler);
-
-            //connectedUsersList
-                apiRTC.addEventListener("connectedUsersListUpdate", connectedUsersListUpdateHandler);
-            //connectedUsersList
-
-                //webRTC Client creation
-                webRTCClient = apiRTC.session.createWebRTCClient({
-                    status : "status" //Optionnal
-                });
-
-
-            //Multi calls Activation
-                //webRTCClient.setAllowMultipleCalls(true);
-
-            //Bandwitdh limitation
-                webRTCClient.setVideoBandwidth(1200);
-
-            //Accept-Refuse
-                webRTCClient.setUserAcceptOnIncomingCall(true);
-			//$('#modalAR').click()
-
-            //Call establishment
-			$("#callVideo").click(function () {
-				//$("#hangup").attr("disabled", false).val("Hangup");
-//			var to = ''
-//			if (!to) to = $('#patient_login').val()
-			to = ''
-			if (!to) to = $('#patient_login').val()
-//			if (!to) to = getCookie('invited_user')
-					if (to) {
-						callId = webRTCClient.call(encode(to));
-						if (callId != null) {
-							addHangupButton(callId);
-						} else {
-							jmsg($('#status').text().split(':')[0],'err')
-						}
-					} else {
-						jmsg('Must enter a valid Login or Email','err')
-						return false
-					}
-                });
-
-            //Global hangup management : all established client calls will be hangup
-                $("#hangup").click(function () {
-                    //$("#call").attr("disabled", false).val("Call");
-                    webRTCClient.hangUp();
-                });
-
-            //Accept-Refuse
-                $("#accept").click(function () {
-					$('#new_close').click()
-					$('#modalAR').hide()
-                    $("#accept").attr("disabled", true).val("Accept");
-                    $("#refuse").attr("disabled", true).val("Refuse");
-                    webRTCClient.acceptCall(incomingCallId);
-					setTimeout('startView()',3000)
-                });
-
-                $("#refuse").click(function () {
-                    $('#new_close').click()
-					$('#modalAR').hide()
-					$("#accept").attr("disabled", true).val("`");
-                    $("#refuse").attr("disabled", true).val("Refuse");
-                    $("#hangup").attr("disabled", true).val("Hangup");
-                    webRTCClient.refuseCall(incomingCallId);
-                    initMediaElementState(incomingCallId);
-                    removeHangupButton(incomingCallId);
-                });
-//				setTimeout('set_status1()',2500)
-//				jmsg('Status....','err')
-				$('#status').html('Connected as : '+ decode(e.detail.apiCCId))
-
-            }
-
-            $("#addressBook").on('click', function() {
-                $("#addressBookDropDown").toggle();
-            });
-
-
-	function hangup_now() {
-		webRTCClient.hangUp();
-	}
-	
-	function startView() {
-		$('#modalRemote').modal('show')	
-		//$('#mm').click()	
-	}
-	function startCam() {
-		$('#callVideo').click()	
-	}
-
-	function encode(str){
-		var nums = '';
-		for(var i=0; i<str.length; i++) {
-			nums += arr.indexOf(str[i]).toString().trim()
-		}
-		return nums
-	}
-
-	function decode(um){
-		var st=um.split('|')
-		console.log(um)
-		var strOut = '';
-		for(var i=0; i<um.length; i+=2){
-			console.log(i + ': ' + um.substring(i,i+2)*1)
-			var s=(um.substring(i,i+2)*1);
-			strOut += arr[s*1]
-		}
-		return strOut;
-	}	
-
-	var wl = window.location.href;
-	var mob = (window.location.href.indexOf('file://')>=0);
-
-	function setCookie(cname,cvalue)	{
-		if (mob===true) {
-			window.localStorage.setItem(cname, cvalue);
-		} else {
-			var d = new Date(); 
-			d.setTime(d.getTime()+(1*24*60*60*1000)); 
-			var expires = "expires="+d.toGMTString(); 
-			document.cookie = cname + "=" + cvalue + "; " + expires; 
-		}
-	} 
-
-	function getCookie(cname)	{ 
-		if (mob===true) {
-			var cvalue = window.localStorage.getItem(cname);
-			return cvalue
-		} else {
-			var name = cname + "="; 
-			var ca = document.cookie.split(';'); 
-			for(var i=0; i<ca.length; i++) { 
-			  var c = ca[i].trim(); 
-			  if (c.indexOf(name)==0) return c.substring(name.length,c.length); 
-			} 
-			return ""; 
-		}
-	} 
-
-	function delCookie(cname) {
-		if (mob===true) {
-			window.localStorage.removeItem(cname);
-		} else {
-			var d = new Date();
-			d.setTime(d.getTime());
-			var expires = "expires="+d.toGMTString();
-			document.cookie = cname + "=" + "" + "; " + expires;
-		}
-	}
-
 </script>
-	<script type="text/javascript" src="js/functions.js"></script>
-<script>
-	var fn=['Active Ingredient','Brand Name','Generic Name','Substance Name','Diagnosis','Symptoms']
-	var tn=['active','brand','generic','substance','diagnosis','symptoms']
-	var bx=['www_box2','www_box5','www_box6','www_box7','www_box8','www_box9']
-	var a=0
-	var old_cs=fn[a]
-	var old_st=tn[a]
-	var cs
-	var st
-	var pad=[ ]
-	var val=[ ]
-	var padUnit=[ ]
-	var str1=''
-	var tab
-		
-	function zzBox() {
-		old_cs=fn[a]
-		old_st=tn[a]
-		if (a==5) a=0
-			else a++
-		st=tn[a]
-		cs=fn[a]
-		document.getElementById(old_st).id=st
-		document.getElementById(st).className='form-control'
-		$('#yfc').text(cs)
-	}
-	function del(ob) {
-		var px=pad.indexOf(ob)
-		pad.splice(px,1)
-		padUnit.splice(px,1)
-		val.splice(px,1)
-		refreshPad()
-	}
-	
-	function guid() {
-	  function s4() {
-		return Math.floor((1 + Math.random()) * 0x10000)
-		  .toString(16)
-		  .substring(1);
-	  }
-	  return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
-		s4() + '-' + s4() + s4() + s4();
-	}
-
-	function swap(obj) {
-		if (document.getElementById('c'+obj).style.height=='1px') {
-			document.getElementById('c'+obj).style.height='50px'
-			document.getElementById('t'+obj).style.display='block'
-		} else {
-			document.getElementById('c'+obj).style.height='1px'
-			document.getElementById('t'+obj).style.display='none'
-		}
-	}
-
-	var cP=[ ]
-	var t1
-
-	var t2
-	function _getMobile() {
-		clearTimeout(t2)
-		t2=setTimeout('getMobile()', 1000)
-	}
-	
-	function getMobile() {
-		var nid='patient_login'
-		var g;
-		var ntr='';
-		var str='';
-		if (document.getElementById(nid).value.length<10) return false
-		str+='<table style="width:100%;padding:10px">'
-		$.ajax({
-			url:'x_ac_names.php?q='+document.getElementById(nid).value+'&type=mobile',
-			success: function(msg){
-				var data=JSON.parse(msg.trim())
-				for (g=0;g<data.length;g++) {
-					ntr = data[g].label.split('|')
-					var valx=data[g].value
-					var pn = ntr[0]
-					var pm = ntr[1]
-
-				}
-			}
-		})
-	}
-
-	function window_height() {
-		if (document.body) {
-		 winH = document.body.offsetHeight;
-		}
-
-		if (document.compatMode=='CSS1Compat' &&
-			document.documentElement &&
-			document.documentElement.offsetHeight ) {
-			winH = document.documentElement.offsetHeight;
-			return winH
-		}
-
-		if (window.innerHeight && window.innerHeight) {
-			 winH = window.innerHeight;
-			 return winH;
-		}
-	}		
-		
-	function window_width() {
-		if (document.body) {
-		 winW = document.body.offsetWidth;
-		}
-
-		if (document.compatMode=='CSS1Compat' &&
-			document.documentElement &&
-			document.documentElement.offsetWidth ) {
-			winW = document.documentElement.offsetWidth;
-			return winW
-		}
-
-		if (window.innerWidth && window.innerWidth) {
-			 winW = window.innerWidth;
-			 return winW;
-		}
-	}		
-			
-		 // document.getElementById('bb').style.width='70%'
-		 // document.getElementById('bb').style.marginLeft='7%'
-	
-	function voice(to,from,txt) {
-		if (!cnf) var cnf='SMS Sent'
-		var url = 'https://sugardaddydays.com/voice/call.php?to=' + to + '&from=' + from + '&message=' +  txt + '&message_type=INDEX_NOTIFY_CODE'
-		var request = $.ajax({
-			url: url, 
-			type: "GET",
-			dataType: "jsonp",
-			cache: false,
-			success: function(msg) {
-			}
-		})
-	}	
-
-	function sms() {
-		var url = 'https://werrx.com/voice/send_sms.php?to=' + getCookie('mobile') + '&from=' + getCookie('login') + '&to_login=' +  getCookie('invited_user') + '&message_type=INVITE'
-		console.log(url)
-		var request = $.ajax({
-			url: url, 
-			type: "GET",
-			dataType: "jsonp",
-			cache: false,
-			success: function(msg) {
-			}
-		})
-	}	
-
-	function isNumber(n) {
-	  return !isNaN(parseFloat(n)) && isFinite(n);
-	}
-
-	function show_error_reg(f,i) { 
-		if (document.getElementById(f.id + '_updated')) {
-			document.getElementById(f.id + '_updated').style.display='block'
-			document.getElementById(f.id + '_updated_img').src='assets/images/e3.png'
-		}
-		var r = f.id + '_err'
-		var e = '<i class="fa fa-bomb"></i> No Blanks!'
-		var t = r + '_txt'
-		if(!i) i = 'Invalid Entry! Please re-enter'
-		x_validate = false
-		r = document.getElementById(r)
-		t = document.getElementById(t)
-		validate = false
-		f.style.background = 'lavenderblush'
-		t.style.color='silver'
-		var obj = f.id
-		if (f.value.length == 0) t.innerHTML = e
-			else t.innerHTML = i
-		t.innerHTML += '<br>'
-	}
-	
-	function jwait(objTxt) {
-		objT.innerHTML=objTxt
-		jModalWn.appendChild(objWait)
-		jModalWn.appendChild(objT)
-		jModalWn.style.display='block'
-	}
-
-	function jhide() {
-		document.getElementById('jModalWn').style.display=='none'
-		jModalWn.style.display='none'
-		objW.style.display='none'
-		objT.style.display='none'
-	}
-	
- function fixHT() {
-	document.getElementById('wrapper').style.height=window_height()+'px'
- }
- 
-</script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( document ).tooltip({
-      track: true
-    });
-  } );
-  </script>
-  </body>
+</body>
 </html>
