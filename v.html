@@ -15,10 +15,306 @@
 </head>
 
 <body>
+	<div id="wrapper" style="width:100%;background:#fff;overflow:hidden">
+	<div style="width:100%;position:absolute;height:60px;top:0;left:0;background:#00D9D9" class="www_box7">
+	Back <img style="margin:auto;height:40px;position:absolute;left:0;right:0;margin:auto;top:10px;display:" src="images/logo4.png">
+	</div>
+	<div style="width:100%;position:absolute;z-index:99999999999999999;height:70px;background:#f0f0f0;bottom:0px;left:0;margin:0;font-size:15px!Important">
+	<span style="font-size:16px!Important;" id="status"></span><span style="font-size:16px!Important;" id="status2"></span></div>
+		<!-- Header
+		============================================= -->
+		<div id="" class="" style="padding:20px;position:absolute;left:0;right:0;margin:auto!Important;top:50PX;height:225px;margin:auto;z-index:9;max-width:320px">
+			<div style="font-size:24px;padding:5px;border-bottom:0px solid red;text-align:left" class="p1">MAKE A VIDEO CALL</div>
+			<table style="width:320px;margin-left:-20px;margin-top:5px" class="www_box2">
+				<tr>
+					<td style="width:95px;padding:10px" 1title="Enter a login number or an email address of the person you wish to video chat with - and just press the button. Thats it. User offline? You also have the option of having us track down the user for you. Just choose 'yes' when asked." style="width:60px">
 
+						<label>Dial</label>
+						<span id="addressBook" style="font-size:18px;color:#000">
+						  <img src="https://werrx.com/images/sp13.png" style="width:30px">
+						</span>							
+					</td>
+					<td style="text-align:left;max-width:170px">
+						<input type="text" id="patient_login" value=""  placeholder="Invite via Login or Email" style="padding:5px;width:150px;height:40px;border:1px solid skyblue;border-radius:4px;background:#fcfcfc" onblur="document.all.callVideo.src='https://sugardaddydays.com/assets/images/vcb.png'">
+						<div id="addressBookDropDown" style="display:none;color:#000!Important;background:#f0f0f0;font-size:20px;width:170px;margin-top:-5px;border-radius:0 0 4px 4px"></div>
+						<input type="hidden" id="encodedLogin">
+					</td>
+					<td>
+						<img title="Click here to start a video call with anyone, just using their login name or email address" style="width:60px;margin:10px" id="callVideo" src="https://sugardaddydays.com/assets/images/vc.png">
+						<span id="call"></span>
+					</td>
+				</tr>
+			</table>
+			<div style="font-size:1.1em"><span><img style="width:40px" src="https://sugardaddydays.com/assets/images/grr.png"></span><span>SETTINGS</span></div>
+			<table style="width:320px;margin-left:-20px;margin-top:10px" class="www_box2">
+				<tr>
+					<td style="width:50px;padding:10px">
+							<label>Audio</label>
+					</td>
+					<td style="text-align:left;max-width:250px">
+						<select class="browser-default" id='audioSource' style="margin:5px;background:lavenderblush;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
+							<option value="" disabled selected>Default Mic</option>
+						</select>
+				
+					</td>
+					
+				</tr>
+				<tr>
+					<td style="padding:10px">
+						<label>Video</label>
+					</td>
+					<td>
+						<select class="browser-default" id='videoSource' style="margin:5px;background:lavender;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
+							<option value="" disabled selected>Default Camera</option>
+						</select>													
+					</td>
+				</tr>
+				<tr>
+					<td style="width:50px;padding:10px">
+						<label>Resolution</label>
+					</td>
+					<td style="text-align:left;max-width:250px">
+						<select class="browser-default" id='audioSource' style="margin:5px;background:lightblue;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
+							<option value="" selected>HD</option>
+							<option value="" disabled>4K</option>
+							<option value="" disabled>SD</option>
+							<option value="" disabled>VGA</option>
+							<option value="" disabled>QVGA</option>
+						</select>
+				
+					</td>
+				</tr>
+				<tr>
+					<td style="width:50px;padding:10px">
+							<label>Bandwidth</label>
+					</td>
+					<td style="text-align:left;max-width:250px">
+						<select class="browser-default" id='audioSource' style="margin:5px;background:gold;border-radius:4px;max-width:200px;padding:5px;border:none;height:40px;font-size:20px;">
+							<option value="" selected>1200 KBps</option>
+							<option value="" disabled>800 KBps</option>
+							<option value="" disabled>300 KBps</option>
+							<option value="" disabled>100 KBps</option>
+						</select>
+				
+					</td>
+					
+				</tr>
+				<tr>
+					<td style="width:50px;padding:10px">
+						<label>Source</label>
+					</td>
+					<td style="text-align:left;max-width:250px">
+						<SPAN><a href="#"><image src="https://sugardaddydays.com/assets/images/t1a.png" id="mm" style="width:45px" data-toggle="modal" data-target="#modalRemote"></a><BR>REMOTE</SPAN><SPAN style="position:absolute;margin-left:25px;margin-top:-28px;text-align:center"><a href="#"><image src="https://sugardaddydays.com/assets/images/t1b.png" id="mr" style="width:25px" data-toggle="modal" data-target="#modalMini"></a><br>LOCAL</SPAN>
+					</td>
+				</tr>
+			</table>
+			<table style="width:350px;margin-left:-20px;margin-top:10px">
+			<tr><td>
+				<a href="#"><image src="images/tele_med.png"style="width:55px;display:none" data-toggle="modal" data-target="#modalAR" id="tm"></a>
+				<a href="#"><image src="images/tele_med.png"style="width:55px;display:none" data-toggle="modal" data-target="#modalAlert" id="am"></a>
+				<input id="hangup" class="btn btn-danger" type="button" disabled="true" value="Hangup" style="display:none"/>
+			</td></tr>
+		</table>
+		
+	</div></div>  
+              </div>
+            </div><!-- /.container -->
+	</div>
+<!-- #wrapper end -->
+						<div class="modal fade" id="modalCalling" tabindex="-1" role="dialog" aria-labelledby="modalCallingLabel" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999;font-family:Poiret One!Important;font-size:24px!Important">
+							<div class="modal-dialog">
+								<div class="modal-body">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="images/new_close.png" onclick="setStatus('Call Request Ended')"></button>
+											<h4 class="modal-title" id="modalCallingLabel">Calling...</h4>
+										</div>
+										<div class="modal-body" id="callBody" style="width:100%;height:100%;object-fit:cover;padding:0;margin:0;text-align:center;display:block">
+											<div><img src="images/phone_calling.gif" style="width:125px"></div>
+											<div>Invite Sent.<br>Waiting for user...<br><br></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="modalRemote" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999" onclick="goFullScreen()">
+							<div class="modal-dialog">
+								<div class="modal-body">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="images/new_close.png"></button>
+											<h4 class="modal-title" id="myModalLabel">REMOTE VIDEO STREAM</h4>
+										</div>
+										<div id="hangupButtons"></div>
+										<div class="modal-body" id="remote" style="width:100%;height:100%;object-fit:cover;padding:0;margin:0;text-align:center">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="modalMini" tabindex="-1" role="dialog" aria-labelledby="miniModalLabel" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999">
+							<div class="modal-dialog">
+								<div class="modal-body">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="images/new_close.png"></button>
+											<h4 class="modal-title" id="miniModalLabel">MY LOCAL VIDEO STREAM</h4>
+										</div>
+										<div id="hangupButtons"></div>
+										<div class="modal-body" id="mini" style="width:100%;height:100%;object-fit:cover;padding:0;margin:0;text-align:center">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="modalAR" tabindex="-1" role="dialog" aria-labelledby="pxDetailLabel" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999">
+							<div class="modal-dialog">
+								<div class="modal-body">
+									<div class="modal-content" STYLE="TEXT-ALIGN:CENTER">
+										<div class="modal-header" id="arBody">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closeNames"><img src="images/new_close.png" id="new_close"></button>
+											<p class="modal-title" id="pxDetailLabel" style="color:orange;font-size:32px">INCOMING VIDEO CALL</p>
+										</div>
+										<div class="modal-body" id="accept_refuse">
+											<input id="accept" class="btn btn-success" type="button" disabled="true" value="Accept Call"  style="font-size:24px"/>
+											<input id="refuse" class="btn btn-danger" type="button" disabled="true" value="Refuse Call"  style="font-size:24px"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>								
+						<div class="modal fade" id="modalJMsg" tabindex="-1" role="dialog" aria-labelledby="msgHeader" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999">
+							<div class="modal-dialog">
+								<div class="modal-body">
+									<div class="modal-content">
+										<div id="jh" class="modal-header" style="padding:2px">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img style="margin:10px;margin-top:20px" src="images/new_close.png"></button>
+											<div class="modal-title" id="msgHeader" style="font-size:24px;margin:10px!Important"></div>
+										</div>
+										<div class="modal-body" id="msgBody" style="width:100%;height:100%;object-fit:cover;padding:10px;margin:0">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="modal fade" id="modalInvite" tabindex="-1" role="dialog" aria-labelledby="modelInviteLabel" aria-hidden="true" style="font-family:Poiret One!Important;font-size:24px!Important;overflow:auto!Important">
+							<div class="modal-dialog">
+								<div class="modal-body">
+									<div class="modal-content">
+										<div class="modal-header">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true"><img src="images/new_close.png"></button>
+											<h4 class="modal-title" id="modelInviteLabel">Calling...</h4>
+										</div>
+										<div class="modal-body" id="inviteMethod" style="width:100%;height:100%;object-fit:cover;padding:0px;margin:0">
+											<table style="font-family:Open Sans Condensed!Important">
+												<tr class="www_box2">
+													<td style="text-align:right">
+														Email
+													</td>
+													<td>
+														<div><input type="text" id="email" style="margin:10px;padding:5px;border-radius:4px;border:none;background:#ffffbf"></div>
+													</td>
+												</tr>
+												<tr class="www_box2">
+													<td style="text-align:right">
+														Mobile
+													</td>
+													<td>
+														<div><input type="text" id="mobile" style="margin:10px;padding:5px;border-radius:4px;border:none;background:#ffffbf"></div>
+													</td>
+												</tr>
+
+												<tr class="www_box6 b1">
+													<td style="width:100px">
+														<div class="slideOne">  
+														  <input type="checkbox" value="None" id="chkSMS" name="chkSMS" checked disabled />
+														  <label for="chkSMS"></label>
+														</div>
+													</td>
+													<td>
+														Send SMS
+													</td>
+												</tr>
+												<tr class="www_box6 b1" style="display:none">
+													<td>
+														<div class="slideOne">  
+														  <input type="checkbox" onchange="setC(this)" value="None" id="chkSMSMsg" name="chkSMSMsg" />
+														  <label for="chkSMSMsg"></label>
+														</div>													</td>
+													</td>
+													<td>
+														<div class="b1">Use personalized SMS Message (100 characters)</div>
+														<div><textarea id="txtSMS" class="txtMsg"></textarea></div>
+													</td>
+												</tr>
+												<tr class="www_box7 b1">
+													<td style="width:100px">
+														<div class="slideOne">  
+														  <input type="checkbox" onchange="setC(this)" value="None" id="chkVoice" name="chkVoice" />
+														  <label for="chkVoice"></label>
+														</div>													</td>
+													</td>
+													<td>
+														Make a voice call
+													</td>
+												</tr>
+												<tr class="www_box7 b1" style="display:none">
+													<td>
+															<div class="slideOne">  
+															  <input type="checkbox" onchange="setC(this)" value="None" id="chkVoiceMsg" name="chkVoiceMsg"/>
+															  <label for="chkVoiceMsg"></label>
+															</div>													</td>
+													<td>
+														<div>Use personalized voice message (500 characters)</div>
+														<div><textarea id="txtVoice" class="txtMsg"></textarea></div>
+													</td>
+												</tr>
+												<tr class="www_box9 b1" style="background:lightblue">
+													<td>
+														<div class="slideOne">  
+														  <input type="checkbox" value="None" onchange="setC(this)"  id="chkEmail" name="chkEmail" />
+														  <label for="chkEmail"></label>
+														</div>													</td>
+													<td>
+														Send an Email
+													</td>
+												</tr>
+												<tr class="www_box8 b1" style="display:none">
+													<td style="width:100px">
+															<div class="slideOne">  
+															  <input type="checkbox" onchange="setC(this)" value="None" id="chkEmailMsg" name="chkEmailMsg" />
+															  <label for="chkEmailMsg"></label>
+															</div>
+													<td>
+														<div>Use personalized email message (2000 characters)</div>
+														<div><textarea id="txtEmail" class="txtMsg"></textarea></div>
+													</td>
+												</tr>
+												<tr class="www_box9 b1" STYLE="BACKGROUND:GOLD">
+													<td style="width:100px">
+															<div class="slideOne">  
+															  <input type="checkbox" value="None" id="chkHunt" name="chkHunt"/>
+															  <label for="chkHunt"></label>
+															</div>
+													</td>
+													<td>
+															HUNT MODE
+  													</td>
+												</tr>
+												<tr>
+													<td colspan=2 style="text-align:center;padding:5px;font-size:21px">
+														<input type="button" value="Continue" onclick="go_next()" class="btn btn-warning">
+													</td>
+												</tr>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 <div class="container-fluid" style="margin-top: 35px;margin-left: 5px; margin-right: 5px">
     <div class="row">
-        <input type="number" id="number" value="" class="form-control" placeholder="Enter Destination ID"/>
+        <input type="to" id="to" value="" class="form-control" placeholder="Enter Destination ID"/>
     </div>
     <div class="row" style="margin-top: 5px">
         <input id="call" type="button" value="Call" class="btn btn-success" style="width: 100%; border-radius: 0;" />
@@ -78,7 +374,7 @@
 			var to_call
 			
 			var to = qs('to')
-			if (!to) to = $('#patient_login').val()
+			if (!to) to = $('#to').val()
 
 		
 			var login = qs('login')
@@ -87,9 +383,7 @@
 
 			setCookie('login', login)
 			if (to) {
-				document.getElementById('patient_login').value=to
-				document.getElementById('encodedLogin').value=encode(to)
-				to_call=encode(to)
+				document.getElementById('to').value=to
 			}
 			
 			function setStatus(tx) {
@@ -106,7 +400,7 @@
 
     function incomingCallHandler(e) {
         $("#call").hide();
-        $("#number").hide();
+        $("#to").hide();
         $("#hangup").show();
         $('#status').hide();
         setTimeout(refreshVideoView,2000);
@@ -114,7 +408,7 @@
 
     function hangupHandler(e) {
         $("#call").show();
-        $("#number").show();
+        $("#to").show();
         $("#hangup").hide();
         $('#status').html(e.detail.reason);
         $('#status').show();
@@ -122,7 +416,7 @@
 
     function userMediaErrorHandler(e) {
         $("#call").show();
-        $("#number").show();
+        $("#to").show();
         $("#hangup").hide();
     }
 
@@ -142,25 +436,25 @@
             remoteVideo : "myRemoteVideo"
         });
 
-        $('#localNumber').html("Your local ID :<BR/>"+apiCC.session.apiCCId);
+        $('#localNumber').html("You can be reached at: " + decode(apiCC.session.apiCCId));
         $('#myMiniVideo').show();
         $('#status').hide();
 
         $("#call").click(function () {
             $("#call").hide();
-            $("#number").hide();
+            $("#to").hide();
             $("#hangup").show();
             $('#status').hide();
 
-            destNumber = $("#number").val();
+            destNumber = $("#to").val();
             console.log("send REFRESH");
             setTimeout(refreshVideoView,4000);
-            webRTCClient.call(destNumber);
+            webRTCClient.call(encode(destNumber));
         });
 
         $("#hangup").click(function () {
             $("#call").show();
-            $("#number").show();
+            $("#to").show();
             $("#hangup").hide();
 
             webRTCClient.hangUp();
