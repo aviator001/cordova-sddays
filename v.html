@@ -525,6 +525,25 @@ video {
 								</div>
 							</div>
 						</div>								
+						<div class="modal fade" id="modalAC" tabindex="-1" role="dialog" aria-labelledby="pyDetailLabel" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999">
+							<div class="modal-dialog">
+								<div class="modal-body">
+									<div class="modal-content" STYLE="TEXT-ALIGN:CENTER">
+										<div class="modal-header" id="arBody">
+											<button type="button" class="close" data-dismiss="modal" aria-hidden="true" id="closeNames"><img src="images/new_close.png" id="new_close"></button>
+											<p class="modal-title" id="pyDetailLabel" style="color:orange;font-size:32px">MAKE VIDEO CALL</p>
+										</div>
+										<div class="modal-body" id="confirm_outgoing">
+											<div>
+												Do you want to place this outgoing video call?
+											</div>
+											<input id="acceptAC" class="btn btn-success" type="button" value="Make Call"  style="font-size:24px" onclick="makeCall()"/>
+											<input id="refuseAC" class="btn btn-danger" type="button" value="Cancel Call"  style="font-size:24px" onclick="cancelCall()"/>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>								
 						<div class="modal fade" id="modalJMsg" tabindex="-1" role="dialog" aria-labelledby="msgHeader" aria-hidden="true" style="position:absolute;z-index:99999999999999999999999999">
 							<div class="modal-dialog">
 								<div class="modal-body">
@@ -714,13 +733,24 @@ video {
 				document.getElementById('patient_login').value=to
 				document.getElementById('encodedLogin').value=encode(to)
 				to_call=encode(to)
+				setTimeout(function(){
+					$('#modalAC').modal('show')
+				},2000)
 			}
 			
 			function setStatus(tx) {
 				$('#status').html(tx)
 			}
 			var cssText
-
+	function makeCall() {
+		$('#modalAC').modal('hide')
+			setTimeout(function(){
+			$('#callVideo').click()
+				setTimeout(function(){
+				$('#modalCalling').modal('show')
+			},2000)
+		},2000)
+	}
 
     function onDeviceReady() {
 
@@ -1166,7 +1196,7 @@ video {
 				$('#modalRemote').modal('hide');
 				$('#modalMini').modal('hide');
                 if (e.detail.reason=='User_Not_Found') {
-					jmsg('Looks like the user isnt online.<br><br>Would you like us to track them down for you? If they are in any way connected to anyh device, we <i><b>will</b></i> find them. And let them know that you are waiting.<br><br>Just for you. So, whats it gonna be?<br><br><input type="button" style="font-size:18px" class="btn btn-info" value="Sure, track them!" onclick="invite_user()"> <input style="font-size:18px" type="button" class="btn btn-danger" value="Its OK, Ill Pass" onclick="hide_invite()">')
+					jmsg('Looks like the user isnt online.<br><br>Would you like us to track them down for you? If they are in any way connected to any device, we <i><b>will</b></i> find them. And let them know that you are waiting.<br><br>Just for you. So, whats it gonna be?<br><br><input type="button" style="font-size:18px" class="btn btn-info" value="Sure, track them!" onclick="invite_user()"> <input style="font-size:18px" type="button" class="btn btn-danger" value="Its OK, Ill Pass" onclick="hide_invite()">')
 					//TO DO: Get all error codes and set user friendly messages for each
 				} else {
 					jmsg(e.detail.reason);

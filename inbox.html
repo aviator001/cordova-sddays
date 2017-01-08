@@ -211,8 +211,7 @@
 		get_messages(url,xid)
 
 	} 
-				//setTimeout('get_messages('+m_url+','+xid+')',3000)
-
+	setTimeout('get_messages('+m_url+','+xid+')',3000)
 	function del_all(xid,mid) {
 		var url = 'https://sugardaddydays.com/inc/x_del_multi.php?xid=' + xid + '&mid=' + mid
 		console.log(url)
@@ -250,7 +249,7 @@
 			success: function(msg) {
 				document.getElementById('m_text_'+xid).innerHTML=msg
 				document.getElementById(xid).style.display='block'
-				setTimeout('get_messages("'+m_url+'",'+xid+')',3000)
+			//	setTimeout('get_messages("'+m_url+'",'+xid+')',3000)
 			}
 		})
 	}
