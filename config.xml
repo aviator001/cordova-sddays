@@ -17,7 +17,7 @@ Gautam Sharma
     <!-- Hiding status bar on ios, see http://stackoverflow.com/questions/20734117/how-to-remove-ios-status-bar-with-phonegap-build -->
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
-    <access origin="*" /> 
+    <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <allow-intent href="tel:*" />
@@ -47,7 +47,8 @@ Gautam Sharma
     <preference name="ChildBrowser"			  	  value="false" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
     <preference name="ErrorUrl"				  	  value="err.html" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
     <preference name="FullScreen"				  value="true" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
-	<preference name="android-minSdkVersion" 	  value="16" />
+	<preference name="android-minSdkVersion" 		value="16" />
+
  <!--
         Define a specific version of PhoneGap to build into your app.
         <preference name="phonegap-version"       value="3.5.0" />
@@ -181,6 +182,7 @@ Gautam Sharma
 		<manifest android:hardwareAccelerated="true" android:versionCode="201" android:versionName="0.2.1" package="com.apizee.hellortc" xmlns:android="http://schemas.android.com/apk/res/android">
 		<supports-screens android:anyDensity="true" android:largeScreens="true" android:normalScreens="true" android:resizeable="true" android:smallScreens="true" android:xlargeScreens="true" />
 		<uses-permission android:name="android.permission.INTERNET" />
+		<uses-sdk android:minSdkVersion="21" android:targetSdkVersion="24" />
 		<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 		<uses-permission android:name="android.permission.RECORD_AUDIO" />
 		<uses-permission android:name="android.permission.RECORD_VIDEO" />
