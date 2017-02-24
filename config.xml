@@ -47,13 +47,9 @@ Gautam Sharma
     <preference name="ChildBrowser"			  	  value="false" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
     <preference name="ErrorUrl"				  	  value="err.html" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
     <preference name="FullScreen"				  value="true" />           <!-- android: app install location. 'auto' will choose. 'internalOnly' is device memory. 'preferExternal' is SDCard. -->
-	<preference name="android-minSdkVersion" 		value="" />
-
- <!--
-        Define a specific version of PhoneGap to build into your app.
-        <preference name="phonegap-version"       value="3.5.0" />
-    -->
-
+	<preference name="android-minSdkVersion" 	  value="" />
+	<preference name="phonegap-version"       	  value="6.5.0" />
+ 
     <!-- Plugins -->
 
     <!-- Core plugins -->
