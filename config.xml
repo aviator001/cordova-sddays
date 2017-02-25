@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <widget xmlns   = "http://www.w3.org/ns/widgets"
     xmlns:gap   = "http://phonegap.com/ns/1.0"
-    id          = "com.addays.app"
+    id          = "com.sugardaddydays.app"
     versionCode = "10"
     version     = "1.0.0">
 
     <name>SugarDaddyDays.com</name>
 
 <description>
-A new experience from the pioneeers of sugar daddy dating - the first site based on disruptive technologies, providing you instant action
+A new experience from the pioneeers of sugar daddy dating - the first site based on disruptive technologies
 </description>
 
 <author href="http://sugardaddydays.com" email="g@txt.am">
