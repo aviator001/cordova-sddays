@@ -569,6 +569,11 @@ animation-duration: 3s;
 		return decodeURIComponent(results[2].replace(/\+/g, " "));
 	}
 	var login,profile
+	
+	function video_call(to) {
+		location.href='v.html?login='+getCookie('login')+'&to='+to
+	}
+	
 	function load_profile1(member_id){
 		if (p.indexOf(member_id)==-1) {
 			hot_list(member_id,'VIEWED_PROFILE')
@@ -822,6 +827,10 @@ function close_chat(ob) {
 	document.getElementById('msgOuterBox'+ob).style.display='none'
 }
 
+//function send_email(t,l,a,f,g,z){
+//	hot_list_login(getCookie('chatting_with'),'SENT_EMAIL')
+//	location.href='send_mail.html?member_id='+t+'&to_login='+l+'&to_age='+a+'&to_img='+f+'&to_gender='+g+'&to_location='+z
+//}
 function send_email(t,l,a,f,g,z){
 	hot_list_login(getCookie('chatting_with'),'SENT_EMAIL')
 	location.href='send_mail.html?member_id='+t+'&to_login='+l+'&to_age='+a+'&to_img='+f+'&to_gender='+g+'&to_location='+z
@@ -1735,6 +1744,7 @@ detectswipe('main_content', myfunction);
 		$(document).click(function(e) { 
 			//e.preventDefault()
 		 })
+		 var dmd
 			function send_sms(objFrom,message_type,bal) {
 				if (!message_type) var message_type='SMS'
 				if (!bal) var bal=getCookie('balance')
@@ -1750,21 +1760,21 @@ detectswipe('main_content', myfunction);
 						if ((!objFrom) || (objFrom == 'undefined')) objFrom=getCookie('long_code')
 						var fromLC=objFrom
 						var message=document.getElementById('message_text').textContent
-						var url = 'https://sugardaddydays.com/inc/x_send_api.php?to=' + toMobile + '&from=' + fromLC + '&message=' +  message + '&site=SDDAYS&message_type='+message_type+'&bal='+bal
+						var url = 'https://werrx.com/gateway/sms.php?to=' + toMobile + '&from=19256669699&msg=' +  message + '&site=SDDAYS&message_type='+message_type+'&bal='+bal
 						console.log(url)
 						var request = $.ajax({
 							url: url, 
 							type: "GET",
-							dataType: "html",
+							dataType: "jsonp",
 							cache: false,
-							success: function(msg) {
+							success: function(dmd) {
+
+							}
+						})
 								hot_list_login(getCookie('chatting_with_login'),'SENT_SMS')
 								document.getElementById('modal').style.display='none'
 								document.getElementById('modal_text').style.display='none'
-								unload()
-							}
-						})
-					}
+								unload()					}
 				})			
 			}
 			
